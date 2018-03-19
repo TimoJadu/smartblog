@@ -1,0 +1,23 @@
+<!--DOCTYPE html -->
+<html>
+	<body>
+		<h1>{{title}} is working</h1>
+		<h2>
+			{% for obj in object_list %}
+			/posts/id/
+			{% url "posts:detail" id=obj.id %}
+			<!-- Hard coding of url routing -->
+			<!-- <a href='/posts/details/{{ obj.id}}'>{{ obj.title }} </a><br/> -->
+			<!-- Dynamic url routing -->
+			
+			<!-- Dynamic url routing process 2 -->
+			<a href='{{ obj.get_absolute_url }}'>{{ obj.title }} </a><br/>
+			{{ obj.id }}<br/>
+			
+			{{ obj.content }}<br/>
+			{% endfor %}
+		</h2>
+	</body>
+</html>
+
+<!-- index page is not required if base.html is being used -->
