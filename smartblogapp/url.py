@@ -13,11 +13,11 @@ from .views import(
 
 urlpatterns = [
 
-    url(r'^create/$', post_Create),
+    url(r'^create/$', post_Create, name="createPost"),
     url(r'^$', post_home, name="list"),	
     url(r'^(?P<id>\d+)/edit/$', post_Update, name="update"),
     url(r'^retrieve/$', post_Retrieve),
-    url(r'^(?P<id>\d+)/delete/$', post_Delete),
+    url(r'^(?P<id>\d+)/delete/$', post_Delete, name="delete"),
     url(r'^(?P<id>\d+)/$', post_details, name='detail'),    
 
 ]
