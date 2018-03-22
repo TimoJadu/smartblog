@@ -24,7 +24,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls, name="admin"),
     url(r'^posts/', include("smartblogapp.url", namespace="posts")),
     url(r'^$', include("smartblogapp.url", namespace="posts")),
-    # url(r'^$',index),
+    # url(r'^$',index), #PT branch created
 ]
 
 
