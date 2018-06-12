@@ -1,0 +1,11 @@
+In R1-REST-IMP ,
+1) implement a rest api and show it in the UI
+
+2) create table gpxFilesContent_IN - load data through Django python
+
+3) call a stored proc from python to migrate to gpxFilesContent_STG after validation 
+- then to gpxFilesContent_Main
+
+4) In validation node reduction may take place.
+
+5) On the main table, introduce R model estimation.
