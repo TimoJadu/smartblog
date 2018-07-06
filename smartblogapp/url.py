@@ -11,6 +11,8 @@ from .views import(
 	post_details,
 	)
 
+app_name = 'posts'
+
 urlpatterns = [
 
     url(r'^create/$', post_Create, name="createPost"),

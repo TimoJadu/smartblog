@@ -18,12 +18,12 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
-# from smartblogapp.views import index
+from smartblogapp import url as blogapp
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls, name="admin"),
-    url(r'^posts/', include("smartblogapp.url", namespace="posts")),
-    url(r'^$', include("smartblogapp.url", namespace="posts")),
+    url(r'^posts/', include(blogapp), name="posts"),
+    url(r'^$', include(blogapp),name="posts"),
     # url(r'^$',index), #PT branch created
 ]
 
