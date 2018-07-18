@@ -12,6 +12,7 @@ from django.shortcuts import render
 # 	return HttpResponse("<h1>Home</h1>")
 from .models import Post
 from .forms import PostForm
+from .gpxContentLoad import *
 
 def post_Create(request):
 	if not request.user.is_staff or not request.user.is_superuser:
@@ -80,7 +81,8 @@ def post_home(request):
 
 
 def post_details(request, id=None):
-
+	if(request.GET.get('mybtn')):
+		startingPoint(request.GET.get('mytextbox'))
 	instance = get_object_or_404(Post, id=id)
 
 	context = {
@@ -121,3 +123,8 @@ def post_Delete(request, id=None):
 	instance.delete()
 	messages.success(request, "Deleted")
 	return redirect("posts:list")
+
+
+def Import(request):
+	if(request.GET.get('mybtn')):
+		startingPoint()
