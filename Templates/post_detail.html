@@ -116,7 +116,7 @@ h1{
 					mymap.addLayer(OpenStreetMap_Mapnik);
 
 					var Esri_WorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-						attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+						attribution: ''
 					});
 					mymap.addLayer( Esri_WorldImagery);
 
@@ -158,7 +158,13 @@ h1{
 </div> <!-- end a row -->	
 </div> <!-- close the container -->
 
-
+<br/>
+<br/>
+<form action="" method="GET">
+ <input type="text" value="c:/" name="mytextbox" size="50"/>
+ <input type="submit" class="btn" value="Upload GPX Files" name="mybtn">
+</form>
+<br/>
 <br/>
 <p><a href="../" class="btn btn-primary" role="button">Back</a> </p>
 <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-numposts="5"></div>

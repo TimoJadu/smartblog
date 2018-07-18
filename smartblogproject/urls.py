@@ -19,11 +19,14 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from smartblogapp import url as blogapp
+from restapp import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls, name="admin"),
     url(r'^posts/', include(blogapp), name="posts"),
     url(r'^$', include(blogapp),name="posts"),
+    url(r'^api/employee', views.employeeList.as_view()),
+    url(r'^api/gpx', views.gpxcontentTableList.as_view(), name="restGPX"),
     # url(r'^$',index), #PT branch created
 ]
 

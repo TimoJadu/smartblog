@@ -2,8 +2,9 @@
 {% block content %}
 
 <div class='col-sm-8 col-sm-offset-2'>
-	<h1> {{ title }}</h1>
-	<p align="right"><a href="{% url 'posts:createPost' %}" class="btn btn-info" role="button">create Post</a> </p><p align="right"><a href="../admin" class="btn btn-link" role="button">Go to Admin</a> </p>
+	<h1> {{ title }}</h1><div>bla
+	<p align="left"><a href="{% url 'posts:createPost' %}" class="btn btn-info" role="button">create Post</a> </p><p align="middle"><a href="../admin" class="btn btn-link" role="button">Go to Admin</a> </p>
+	<p align="right"><a href="{% url 'restGPX' %}" class="btn btn-link" role="button">API-GPX</a></p></div>
 	<form method="GET" action="">
 		<input type="text" placeholder="Search Post" name="q" value="{{ request.GET.q}}">
 		<input type="submit" value="Search" name="">

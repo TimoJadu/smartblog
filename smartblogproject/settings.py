@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'smartblogapp',
+    'rest_framework',
+    'restapp',
 ]
 
 # MIDDLEWARE_CLASSES = [

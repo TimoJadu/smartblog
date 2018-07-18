@@ -2,6 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from .models import Post
+from restapp.models import *
 
 class PostModelAdmin(admin.ModelAdmin):
 	"""docstring for ClassName"""
@@ -20,3 +21,6 @@ class PostModelAdmin(admin.ModelAdmin):
 		
 
 admin.site.register(Post, PostModelAdmin)
+admin.site.register(gpxcontentTable)
+admin.site.register(employees)
+
