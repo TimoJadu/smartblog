@@ -10,6 +10,7 @@ import numpy as np
 # import seawater as sw
 import os
 import subprocess
+# import rpy2.robjects as robjects
 
 
 class DatabaseConnection:
@@ -120,16 +121,20 @@ def checkTableExists(dbcon, tablename):
 
 def runRCode():
 	try:
-		command = 'Rscript'
-		path2script = 'C:\subhajit\projectX\PyCharm-GPX\R-code.R'
-		cmd = [command, path2script]
-		x = subprocess.check_output(cmd, universal_newlines=True)
-		pprint('The maximum of the numbers is:', x)
+		command = 'test.R'
+		path2script = 'C:\subhajit\projectX\PyCharm-GPX'
+		cmd = [path2script,command]
+		subprocess.call("C:\subhajit\projectX\PyCharm-GPX\test.R", shell=True)
+		subprocess.check_call(['Rscript', 'test.R'], shell=False)
+		# x = subprocess.check_output(cmd, universal_newlines=True)
+		# pprint('The maximum of the numbers is:', x)
+
 
 	except Exception as ex:
 		pprint("Exception is:" + ex)
 
 def startingPoint(path):
+	# pyFunction()
 	extenstions = ['gpx']
 	filesAvl = [fn for fn in os.listdir(path)
 				  if any(fn.endswith(ext) for ext in extenstions)]
@@ -154,4 +159,8 @@ def startingPoint(path):
 
 
 
-
+# def pyFunction():
+#     #do python stuff
+#     r=robjects.r
+#     r.source("C:\subhajit\projectX\smartblog\smartblogproject\smartblogapp\test.R")
+#     r["rfunc(folder)"]

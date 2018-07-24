@@ -86,7 +86,42 @@ h1{
 		<div class="container-fluid">
 			<div class="row"> 
 				<!-- This is the start of your web page -->				
-
+				<div class="col-sm-12">
+                    <h4>File Summary</h4>
+                    <div class="row">
+                        <div id="summaryGrid" style="width: 300px; height: 340px"></div>
+                     </div>
+                  </div>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  
 				<div id="map" style="width: 70%; height: 200px"></div>				
 
 				<script>
@@ -172,6 +207,92 @@ h1{
 
 </div>
 
+<script type="text/javascript">
+	var endpoint = '../../api/summary';
+    var fileSummary;
+    var fileNames=[];
+    var uniqueFileNames = [];
+    
+    $.ajax({
+        method: "GET",
+        url: endpoint,
+        success: function(data){
+            fileSummary= data
+            console.log(data);
+            myFunction();
+            drdwFileName();
+            },
+            error: function(error_data){
+                console.log("error");
+                console.log(error_data);
+                }
+        });
+
+    function myFunction() {
+    var x = document.createElement("TEXTAREA");
+    x.setAttribute("id","txtArea");
+    x.cols="80";
+    x.rows="25";
+    var t = document.createTextNode(JSON.stringify(fileSummary));
+    x.appendChild(t);
+
+    document.getElementById("summaryGrid").appendChild(x);   
+
+};
+
+function apiCall(fname){
+	$.ajax({
+        method: "GET",
+        url: endpoint + '?filename='+fname,
+        success: function(data){
+            fileSummary= data
+            console.log(data);
+            // myFunction();
+            // document.getElementById("summaryGrid").appendChild(x);
+   //          var myNode = document.getElementById("summaryGrid");
+			// if (myNode.firstChild) {
+			//     myNode.removeChild(myNode.firstChild);
+			// }
+            var x = document.createElement("TEXTAREA");
+			 x.setAttribute("id","txtArea");
+			 x.cols="80";
+			 x.rows="25";
+			 var t = document.createTextNode(JSON.stringify(fileSummary));
+			 x.appendChild(t);
+
+			 document.getElementById("summaryGrid").appendChild(x);
+            },
+            error: function(error_data){
+                console.log("error");
+                console.log(error_data);
+                }
+        });
+};
+	
+	function drdwFileName(){
+		for(var i=0;i<fileSummary.length;i++){
+    fileNames[i]= fileSummary[i].fileName;
+    }
+
+	
+	$.each(fileNames, function(i, el){
+	    if($.inArray(el, uniqueFileNames) === -1) uniqueFileNames.push(el);
+	});
+
+	var select = document.createElement('select');
+
+	for(var i=0;i<uniqueFileNames.length;i++){
+	// Use the Option constructor: args text, value, defaultSelected, selected
+	var option = new Option(uniqueFileNames[i], uniqueFileNames[i], false, false);
+	option.setAttribute("onchange",apiCall(option.value));
+	select.appendChild(option);	
+	}
+	document.getElementById("summaryGrid").appendChild(select);
+	};
+
+
+
+</script>
 {% endblock content %}
 
 
