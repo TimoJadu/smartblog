@@ -36,3 +36,8 @@ class summaryTable(models.Model):
     GeoPointsDist=models.CharField(max_length=500)
     Angle=models.CharField(max_length=500)
     fileName=models.CharField(max_length=500)
+
+class gpxJson(models.Model):
+    id=models.IntegerField(primary_key=True, auto_created=True)
+    fileName=models.CharField(max_length=500)
+    lineString=models.CharField(max_length=1000000)

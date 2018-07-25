@@ -49,3 +49,16 @@ class summaryTableList(APIView):
         # if username is not None:
         #     queryset = queryset.filter(purchaser__username=username)
         # return queryset
+
+
+class gpxJsonList(APIView):
+    def get(self,request):
+        lineString=gpxJson.objects.all()
+        filename = self.request.query_params.get('filename', None)
+        if filename is not None:
+            lineString = lineString.filter(fileName=filename)
+        serializer=gpxJsonSerializer(lineString,many=True)
+        return Response(serializer.data)
+
+    def post(self):
+        pass

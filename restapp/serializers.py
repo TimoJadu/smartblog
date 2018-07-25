@@ -20,3 +20,9 @@ class summaryTableSerializer(serializers.ModelSerializer):
         # fields='__all__'
         fields=('id_gist','longitude','latitude','altitude','time','Speed','DateTime',
         	'TimeDiff','DistanceCovered','DeltaElev','GeoPointsDist','Angle','fileName')
+
+class gpxJsonSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=gpxJson
+        # fields='__all__'
+        fields=('fileName','lineString')

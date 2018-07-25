@@ -82,14 +82,22 @@ h1{
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 
 
+		<!-- for line-String -->
+		<meta charset="utf-8" />
+		  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+		  <link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+		  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+		  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+		<!-- end -->
 		<div class="container-fluid">
 			<div class="row"> 
 				<!-- This is the start of your web page -->				
 				<div class="col-sm-12">
-                    <h4>File Summary</h4>
+                    <h4>Files Summary</h4>
                     <div class="row">
-                        <div id="summaryGrid" style="width: 300px; height: 340px"></div>
+                        <div id="summaryGrid" style="width: 300px; height: 140px"></div>
                      </div>
                   </div>
                   <br/>
@@ -121,9 +129,59 @@ h1{
                   <br/>
                   <br/>
                   <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
                   
 				<div id="map" style="width: 70%; height: 200px"></div>				
-
+				<br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <div id="lineMap" style="width: 100%; height: 300px;"></div>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+				<div class="col-sm-12">
+                    <h4>File Summary</h4>
+                    <div class="row">
+                        <div id="fileSummaryGrid" style="width: 300px; height: 340px"></div>
+                     </div>
+                  </div>
 				<script>
 					<!-- Starting latitude and longitude of the center of the map -->
 					<!-- Here is the CENTER coordinates of our map -->
@@ -185,6 +243,8 @@ h1{
 
 				</script>
 
+				
+
 				<!-- This is the end of your web page -->
 				<!-- You should not change any code below this line -->
 <!-- If you change the code below here and it is incorrect 
@@ -241,18 +301,18 @@ h1{
 };
 
 function apiCall(fname){
+	var selectedValue = fname.value;
+
 	$.ajax({
         method: "GET",
         url: endpoint + '?filename='+fname,
         success: function(data){
             fileSummary= data
             console.log(data);
-            // myFunction();
-            // document.getElementById("summaryGrid").appendChild(x);
-   //          var myNode = document.getElementById("summaryGrid");
-			// if (myNode.firstChild) {
-			//     myNode.removeChild(myNode.firstChild);
-			// }
+            
+			if(document.getElementById("fileSummaryGrid").childNodes.length>0){
+				document.getElementById("fileSummaryGrid").innerHTML='';
+			}
             var x = document.createElement("TEXTAREA");
 			 x.setAttribute("id","txtArea");
 			 x.cols="80";
@@ -260,7 +320,28 @@ function apiCall(fname){
 			 var t = document.createTextNode(JSON.stringify(fileSummary));
 			 x.appendChild(t);
 
-			 document.getElementById("summaryGrid").appendChild(x);
+			 document.getElementById("fileSummaryGrid").appendChild(x);
+            },
+            error: function(error_data){
+                console.log("error");
+                console.log(error_data);
+                }
+        });
+};
+
+var lineString=[];
+var endpointLineString= '../../api/lineStringJson';
+function apiCallLineString(fname){
+	<!--var selectedValue = fname.value;-->
+
+	$.ajax({
+        method: "GET",
+        url: endpointLineString + '?filename='+fname,
+        success: function(data){
+            lineString= data[0].lineString;
+            lineString= JSON.parse(lineString.replace(/\//g,' '))
+            console.log(lineString);
+            drawLineString();
             },
             error: function(error_data){
                 console.log("error");
@@ -280,18 +361,113 @@ function apiCall(fname){
 	});
 
 	var select = document.createElement('select');
+	select.setAttribute("id","select_id");
+	//select.setAttribute("onchange",apiCall(this));
 
 	for(var i=0;i<uniqueFileNames.length;i++){
 	// Use the Option constructor: args text, value, defaultSelected, selected
 	var option = new Option(uniqueFileNames[i], uniqueFileNames[i], false, false);
-	option.setAttribute("onchange",apiCall(option.value));
+	// option.setAttribute("onchange",val(option.value));
+	// option.setAttribute("id","select_id");
 	select.appendChild(option);	
 	}
 	document.getElementById("summaryGrid").appendChild(select);
 	};
 
 
+		$(document).ready(function(){
+		    $('#select_id').change(function(){
+			    // alert($(this).val());
+			    apiCall($( "#select_id" ).val());
+			    apiCallLineString($( "#select_id" ).val());
+			});
+		});
+	
 
+
+
+					 function drawLineString(){
+					 	var startIcon = L.icon({
+                        iconUrl: "../static/images/Location_start.png",
+                        iconSize:     [28, 45], 
+                        iconAnchor:   [15, 44], 
+                        popupAnchor:  [-3, -76] 
+                    });
+					 	var stopIcon = L.icon({
+                        iconUrl: "../static/images/Location_stop.png",
+                        iconSize:     [28, 45], 
+                        iconAnchor:   [15, 44], 
+                        popupAnchor:  [-3, -76] 
+                    });
+                   
+                    // var ZoomLevel = 12;
+                    // var mymap = L.map('map', {
+                    //     center: [lineString.coordinates[0][1],  lineString.coordinates[0][0]],
+                    //     zoom: ZoomLevel
+                    // });                   
+
+                    // var OpenStreetMap_Mapnik = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    //     maxZoom: 19,
+                    //     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                    // });
+                    // mymap.addLayer(OpenStreetMap_Mapnik);
+
+                    // var Esri_WorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
+                    // mymap.addLayer( Esri_WorldImagery);
+					 	// if (map != undefined){
+					 	// 	  // document.getElementById("lineMap").removeChild(document.getElementById("lineMap").childNodes[0]);
+					 	// 	  map.remove();
+					 	// 	}
+					 	document.getElementById('lineMap').innerHTML = '<div id="lineMap" style="width: 100%; height: 300px;"></div>';
+
+							  var map = new L.map('lineMap').setView([lineString.coordinates[0][1], lineString.coordinates[0][0]], 8);
+							  var OpenStreetMap_Mapnik = new L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+								maxZoom: 16,
+								attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+							});
+							map.addLayer(OpenStreetMap_Mapnik);
+
+							var Esri_WorldImagery = new L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
+                    		map.addLayer( Esri_WorldImagery);
+
+							L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
+							  id: 'mapbox.streets'
+							}).addTo(map);
+
+							startingPoint = L.marker([lineString.coordinates[0][1], lineString.coordinates[0][0]],{icon: startIcon}).bindPopup('Page Visit');
+                            overlay = L.layerGroup([startingPoint]);
+                            map.addLayer(overlay);
+
+							var aT0625124projectlimits0 = {
+							  "type": "FeatureCollection",
+							  "features": [{
+							    "type": "Feature",
+							    "geometry": lineString,
+							    "properties": {
+							      "OBJECTID": 16,
+							      "Contract_N": "AT0625124",
+							      "SHAPE_Leng": "53224.7785428",
+							      "Completion": "100"
+							    }
+							  }]
+							}
+
+							L.geoJson(aT0625124projectlimits0, {
+							  style: function(feature) {
+							    return {
+							      stroke: true,
+							      color: "blue",
+							      weight: 5
+							    };
+							  },
+							  onEachFeature: function(feature, layer) {
+							    layer.bindPopup("id: " + feature.properties.OBJECTID + "<br>" +
+							      "Contract_N: " + feature.properties.Contract_N);
+							  }
+							}).addTo(map);
+						};
+
+				
 </script>
 {% endblock content %}
 
