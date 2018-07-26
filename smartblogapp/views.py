@@ -83,6 +83,9 @@ def post_home(request):
 def post_details(request, id=None):
 	if(request.GET.get('mybtn')):
 		startingPoint(request.GET.get('mytextbox'))
+
+	if(request.GET.get('btnSummaryAPILoad')):
+		summaryAPILoad()
 	instance = get_object_or_404(Post, id=id)
 
 	context = {

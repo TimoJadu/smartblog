@@ -129,32 +129,7 @@ h1{
                   <br/>
                   <br/>
                   <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
+                 
                   
 				<div id="map" style="width: 70%; height: 200px"></div>				
 				<br/>
@@ -258,6 +233,9 @@ h1{
 <form action="" method="GET">
  <input type="text" value="c:/" name="mytextbox" size="50"/>
  <input type="submit" class="btn" value="Upload GPX Files" name="mybtn">
+ 
+ <br/>
+ <input type="submit" class="btn" value="Load Summary API" name="btnSummaryAPILoad">
 </form>
 <br/>
 <br/>
@@ -388,36 +366,19 @@ function apiCallLineString(fname){
 
 					 function drawLineString(){
 					 	var startIcon = L.icon({
-                        iconUrl: "../static/images/Location_start.png",
+                        iconUrl: 'https://unpkg.com/leaflet@1.0.3/dist/images/marker-icon-2x.png',
                         iconSize:     [28, 45], 
                         iconAnchor:   [15, 44], 
                         popupAnchor:  [-3, -76] 
                     });
 					 	var stopIcon = L.icon({
-                        iconUrl: "../static/images/Location_stop.png",
+                        iconUrl: '../static/images/Location_stop.png',
                         iconSize:     [28, 45], 
                         iconAnchor:   [15, 44], 
                         popupAnchor:  [-3, -76] 
                     });
                    
-                    // var ZoomLevel = 12;
-                    // var mymap = L.map('map', {
-                    //     center: [lineString.coordinates[0][1],  lineString.coordinates[0][0]],
-                    //     zoom: ZoomLevel
-                    // });                   
-
-                    // var OpenStreetMap_Mapnik = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    //     maxZoom: 19,
-                    //     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                    // });
-                    // mymap.addLayer(OpenStreetMap_Mapnik);
-
-                    // var Esri_WorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
-                    // mymap.addLayer( Esri_WorldImagery);
-					 	// if (map != undefined){
-					 	// 	  // document.getElementById("lineMap").removeChild(document.getElementById("lineMap").childNodes[0]);
-					 	// 	  map.remove();
-					 	// 	}
+                    
 					 	document.getElementById('lineMap').innerHTML = '<div id="lineMap" style="width: 100%; height: 300px;"></div>';
 
 							  var map = new L.map('lineMap').setView([lineString.coordinates[0][1], lineString.coordinates[0][0]], 8);
@@ -429,6 +390,8 @@ function apiCallLineString(fname){
 
 							var Esri_WorldImagery = new L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
                     		map.addLayer( Esri_WorldImagery);
+
+                    		var backgroundLayerNames = {"ESRI Aerial": Esri_WorldImagery, "OpenStreetMap Streets": OpenStreetMap_Mapnik};
 
 							L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
 							  id: 'mapbox.streets'
@@ -465,27 +428,10 @@ function apiCallLineString(fname){
 							      "Contract_N: " + feature.properties.Contract_N);
 							  }
 							}).addTo(map);
+
+							L.control.layers(backgroundLayerNames,overlayPointLayerNames).addTo(map);
 						};
 
 				
 </script>
 {% endblock content %}
-
-
-
-<!--DOCTYPE html -->
-<!-- <html>
-	<body>
-		{% if messages %}
-		<ul class="messages">
-			{% for message in messages %}
-			<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-			{% endfor %}
-		</ul>
-		{% endif %} -->
-
-
-		<!-- the mentioned extended part should go here -->
-		<!-- 
-	</body>
-</html> -->

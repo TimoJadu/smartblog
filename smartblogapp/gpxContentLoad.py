@@ -67,7 +67,31 @@ class DatabaseConnection:
 			self.cursor.execute(exe_command)
 		except Exception as ex:
 			pprint("Exception is:"+ ex)
-		
+
+	def summaryLoad(self):
+		try:
+			exe_command="delete from summarytable where id_gist is null"
+			self.cursor.execute(exe_command)
+			exe_command1="delete from restapp_summarytable"
+			self.cursor.execute(exe_command1)
+			exe_command2='insert into restapp_summarytable(id, id_gist, longitude, latitude, altitude, "time", "Speed", "DateTime", "TimeDiff", "DistanceCovered", "DeltaElev", "GeoPointsDist", "Angle", "fileName") select (ROW_NUMBER() over (order by id_gist)), id_gist, longitude, latitude, altitude, "time", speed, "DateTime", "TimeDiff", "DistanceCovered", "DeltaElev", "GeoPointsDist", "Angle", filename from summarytable as st'
+			self.cursor.execute(exe_command2)
+
+		except Exception as ex:
+			pprint("Exception is:"+ ex)
+
+
+	def gpxJsonLoad(self):
+		try:
+			exe_command1="delete from restapp_gpxJson"
+			self.cursor.execute(exe_command1)
+			exe_command='insert into restapp_gpxJson (id, "fileName", "lineString") select (ROW_NUMBER() over (order by r.filename)), r.fileName, st_asgeojson(r.Route) from (SELECT St_MakeLine(point) as Route, tab.filename FROM (SELECT point, CAST(time As date) as Data_obs, filename	FROM gpxcontenttable as gc	ORDER BY gc.time) tab group by tab.filename) as r'
+			self.cursor.execute(exe_command)
+			
+		except Exception as ex:
+			pprint("Exception is:"+ ex)
+
+
 
 	@property
 	def obj(self):
@@ -153,11 +177,13 @@ def startingPoint(path):
 
 	# database_connection.add_geom_Point()
 	database_connection.determine_geom_Point()
-	database_connection.postgresql_to_CSV(path)
+	# database_connection.postgresql_to_CSV(path)
 	# runRCode()
 
-
-
+def summaryAPILoad():
+	database_connection=DatabaseConnection()
+	database_connection.summaryLoad()
+	database_connection.gpxJsonLoad()
 
 # def pyFunction():
 #     #do python stuff
