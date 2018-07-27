@@ -1,0 +1,23 @@
+gpxcontent
+restapp_gpxcontenttable
+gpxcontenttable
+summarytable
+restapp_summarytable
+
+
+
+restapp_gpxcontenttable
+restapp_summarytable
+restapp_summarytable
+restapp_gpxJson
+gpxfilescharacteristics
+summarytable
+
+
+R-code:
+gpxcontenttable
+summarytable
+
+to load in:
+restapp_summarytable
+restapp_gpxJson
