@@ -63,6 +63,8 @@ populate_dataset2Analysis<- function (fname){
   print(fname)
   #nrow(dataSet2Analysis)
   #fname<- 'activity_1666612514.gpx'
+  fname<- 'activity_2842747188.gpx'
+  fname<- 'activity_2743179162.gpx'
   v<- as.POSIXlt(strsplit(summaryList[[j]][[1]][["time"]][6]," :")[[1]][2],"%Y-%m-%d %H:%M:%OS")
   v1<- as.POSIXlt(strsplit(summaryList[[j]][[1]][["time"]][1],":")[[1]][2],"%Y-%m-%d %H:%M:%OS")
   
@@ -87,10 +89,43 @@ populate_dataset2Analysis<- function (fname){
 
 for(i in 1:length(unique(gpxcontent$filename)))
 {
-  populate_dataset2Analysis(noquote(unique(gpxcontent$filename)[i]))
+  populate_dataset2Analysis(unique(gpxcontent$filename)[2])
 }
 
 ##############################################################################
+dataSet2Analysis$filename
+
+dataSet2Analysis$time<- as.numeric(dataSet2Analysis$time)/3600
+dataSet2Analysis$altitude<- as.numeric(dataSet2Analysis$altitude)
+dataSet2Analysis$speed<- as.numeric(dataSet2Analysis$speed)
+dataSet2Analysis$timediff<- as.numeric(dataSet2Analysis$timediff)
+dataSet2Analysis$distancecovered<- as.numeric(dataSet2Analysis$distancecovered)
+dataSet2Analysis$GeoPointDistance<- as.numeric(dataSet2Analysis$GeoPointDistance)
+dataSet2Analysis$Angle<- as.numeric(dataSet2Analysis$Angle)
+########################################################
+
+dataSet2Analysis.feat<- dataSet2Analysis[,4:8]
+pairs(dataSet2Analysis.feat,col=dataSet2Analysis$filename)
+
+dataSet2Analysis<- t(dataSet2Analysis)
+
+km <- kmeans(dataSet2Analysis, 4,nstart=10)
+clusk <- km$cluster
+o <- order(clusk)
+stars(educ[o,],nrow=3, col.stars=clusk[o]+1)
+
+typeof(educ)
+educ <- read.table("C:\\Maynooth University\\ST464\\educ.txt",row.names=1,header=TRUE)
+educ<- educ[,-19]
+educ<- t(educ)
+km <- kmeans(educ, 4,nstart=10)
+clusk <- km$cluster
+o <- order(clusk)
+stars(educ[o,],nrow=3, col.stars=clusk[o]+1)
+
+
+
+
 
 typeof(unique(gpxcontent$filename))
 noquote(unique(gpxcontent$filename)[1])
