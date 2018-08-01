@@ -237,7 +237,83 @@ for(i in 1:length(unique(gpxcontent$filename))){
 #write.csv(gpxcontent,"C:/subhajit/projectX/PyCharm-GPX/GPX_output.csv")
 ##
 
+#write.csv(gpxcontent,"C:/subhajit/projectX/PyCharm-GPX/gpxcontent_output.csv")
+#write.csv(summaryList,"C:/subhajit/projectX/PyCharm-GPX/summaryList_output.csv")
+#saveRDS(gpxcontent, "C:/subhajit/projectX/PyCharm-GPX/gpxcontent.rds")
+#saveRDS(summaryList, "C:/subhajit/projectX/PyCharm-GPX/summaryList.rds")
 
+#saveRDS(full.ds, "F:/MSc/Dissertation/SolarFlareForecasting/full.ds.rds")
 
+###################31st August: dataset prepared and Kmean applied####################
+dataSet2Analysis<- c()
 
+library(lubridate)
+populate_dataset2Analysis<- function (fname){
+  j<- 0
+  
+  for(i in 1:length(summaryList)){
+    if(summaryList[[i]][[1]][["filename"]][1]==fname)
+    {j=i
+    break}
+  }
+  
+  
+  v<- ymd_hms(trimws(strsplit(summaryList[[j]][[1]][["time"]][1]," :")[[1]][2],which='b'),tz=Sys.timezone())
+  v1<- ymd_hms(trimws(strsplit(summaryList[[j]][[1]][["time"]][6]," :")[[1]][2],which='b'),tz=Sys.timezone())
+  
+  dataR<- c(fname,
+            #altitude
+            as.numeric(strsplit(summaryList[[j]][[1]][["altitude"]][6],":")[[1]][2])- as.numeric(strsplit(summaryList[[1]][[1]][["altitude"]][1],":")[[1]][2]),
+            #time
+            difftime(v,v1, units = "secs"),
+            #speed
+            as.numeric(strsplit(summaryList[[j]][[1]][["speed"]][3],":")[[1]][2]),
+            #timediff
+            as.numeric(strsplit(summaryList[[j]][[1]][["TimeDiff"]][3],":")[[1]][2]),
+            
+            #DeltaElev
+            as.numeric(strsplit(summaryList[[j]][[1]][["DeltaElev"]][6],":")[[1]][2])- as.numeric(strsplit(summaryList[[1]][[1]][["DeltaElev"]][1],":")[[1]][2]),
+            #GeoPointDistance
+            sum(gpxcontent[gpxcontent$filename==fname,]$GeoPointsDist),
+            #Angle
+            as.numeric(strsplit(summaryList[[j]][[1]][["Angle"]][3],":")[[1]][2])
+  )
+  dataR
+}
+
+for(i in 1:length(unique(gpxcontent$filename))){
+  dataSet2Analysis<- rbind(dataSet2Analysis,populate_dataset2Analysis(unique(gpxcontent$filename)[i]))
+}
+
+#dim(dataSet2Analysis)
+#View(dataSet2Analysis)
+colnames(dataSet2Analysis) <- c("filename",
+                                "altitude",
+                                "time",
+                                "speed",
+                                "timeDiff",
+                                "DeltaElev",
+                                "totaldist",
+                                "Angle")
+
+#typeof(dataSet2Analysis)
+dataSet2Analysis <- as.data.frame(dataSet2Analysis)
+#typeof(dataSet2Analysis)
+dataSet2Analysis$altitude<- as.numeric(dataSet2Analysis$altitude)
+dataSet2Analysis$time<- as.numeric(dataSet2Analysis$time)
+dataSet2Analysis$speed<- as.numeric(dataSet2Analysis$speed)
+dataSet2Analysis$timeDiff<- as.numeric(dataSet2Analysis$timeDiff)
+dataSet2Analysis$DeltaElev<- as.numeric(dataSet2Analysis$DeltaElev)
+dataSet2Analysis$totaldist<- as.numeric(dataSet2Analysis$totaldist)
+dataSet2Analysis$Angle<- as.numeric(dataSet2Analysis$Angle)
+rownames(dataSet2Analysis) <- dataSet2Analysis$filename
+
+#str(dataSet2Analysis)
+?kmeans
+clusterset<- dataSet2Analysis[,-1]
+km <- kmeans(clusterset, 4,nstart=10)
+clusk <- km$cluster
+o <- order(clusk)
+stars(clusterset[o,],nrow=3, col.stars=clusk[o]+1)
+#######################################End:#############################################
 
