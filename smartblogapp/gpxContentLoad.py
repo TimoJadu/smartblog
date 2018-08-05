@@ -92,6 +92,16 @@ class DatabaseConnection:
 			pprint("Exception is:"+ ex)
 
 
+	def KmeanDataLoad(self):
+		try:
+			exe_command='select altitude, time, speed, "timeDiff", "DeltaElev", totaldist, "Angle" from "dataSet2Analysis"'
+			self.cursor.execute(exe_command)
+			# df = DataFrame(self.cursor.fetchall(), columns=['filename', 'altitude', 'time','speed', 'timeDiff', 'DeltaElev', 'totaldist','Angle'])
+			df = DataFrame(self.cursor.fetchall())
+			return df
+		except Exception as ex:
+			pprint("Exception is:" + ex)
+
 
 	@property
 	def obj(self):
@@ -184,6 +194,14 @@ def summaryAPILoad():
 	database_connection=DatabaseConnection()
 	database_connection.summaryLoad()
 	database_connection.gpxJsonLoad()
+	# runRCode()
+
+def ImageBuilder():
+	database_connection=DatabaseConnection()
+	result = database_connection.KmeanDataLoad()
+	return result
+
+
 
 # def pyFunction():
 #     #do python stuff
