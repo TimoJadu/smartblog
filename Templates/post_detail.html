@@ -257,8 +257,8 @@ h1{
         success: function(data){
             fileSummary= data
             console.log(data);
-            myFunction();
-            drdwFileName();
+            buildsummaryGrid();
+            buildFilesDropdown();
             },
             error: function(error_data){
                 console.log("error");
@@ -266,172 +266,190 @@ h1{
                 }
         });
 
-    function myFunction() {
-    var x = document.createElement("TEXTAREA");
-    x.setAttribute("id","txtArea");
-    x.cols="80";
-    x.rows="25";
-    var t = document.createTextNode(JSON.stringify(fileSummary));
-    x.appendChild(t);
+    function buildsummaryGrid() {
+	    var x = document.createElement("TEXTAREA");
+	    x.setAttribute("id","txtArea");
+	    x.cols="80";
+	    x.rows="25";
+	    var t = document.createTextNode(JSON.stringify(fileSummary));
+	    x.appendChild(t);
 
-    document.getElementById("summaryGrid").appendChild(x);   
+	    document.getElementById("summaryGrid").appendChild(x); 
+	};
 
-};
+	function apiCall(fname){
+		var selectedValue = fname.value;
+		// if (fname!=undefined) {
+		// 	endpoint = endpoint + '?filename='+fname
+		// }
 
-function apiCall(fname){
-	var selectedValue = fname.value;
+		$.ajax({
+	        method: "GET",
+	        url: endpoint + '?filename='+fname,
+	        success: function(data){
+	            fileSummary= data
+	            console.log(data);
+	            
+				if(document.getElementById("fileSummaryGrid").childNodes.length>0){
+					document.getElementById("fileSummaryGrid").innerHTML='';
+				}
+	            var x = document.createElement("TEXTAREA");
+				 x.setAttribute("id","txtArea");
+				 x.cols="80";
+				 x.rows="25";
+				 var t = document.createTextNode(JSON.stringify(fileSummary));
+				 x.appendChild(t);
 
-	$.ajax({
-        method: "GET",
-        url: endpoint + '?filename='+fname,
-        success: function(data){
-            fileSummary= data
-            console.log(data);
-            
-			if(document.getElementById("fileSummaryGrid").childNodes.length>0){
-				document.getElementById("fileSummaryGrid").innerHTML='';
-			}
-            var x = document.createElement("TEXTAREA");
-			 x.setAttribute("id","txtArea");
-			 x.cols="80";
-			 x.rows="25";
-			 var t = document.createTextNode(JSON.stringify(fileSummary));
-			 x.appendChild(t);
+				 document.getElementById("fileSummaryGrid").appendChild(x);
+	            },
+	            error: function(error_data){
+	                console.log("error");
+	                console.log(error_data);
+	                }
+	        });
+	};
 
-			 document.getElementById("fileSummaryGrid").appendChild(x);
-            },
-            error: function(error_data){
-                console.log("error");
-                console.log(error_data);
-                }
-        });
-};
-
-var lineString=[];
-var endpointLineString= '../../api/lineStringJson';
-function apiCallLineString(fname){
-	<!--var selectedValue = fname.value;-->
-
-	$.ajax({
-        method: "GET",
-        url: endpointLineString + '?filename='+fname,
-        success: function(data){
-            lineString= data[0].lineString;
-            lineString= JSON.parse(lineString.replace(/\//g,' '))
-            console.log(lineString);
-            drawLineString();
-            },
-            error: function(error_data){
-                console.log("error");
-                console.log(error_data);
-                }
-        });
-};
+	var lineString=[];
+	var endpointLineString= '../../api/lineStringJson';
+	function apiCallLineString(fname){
+		var selectedValue = fname.value;
+		// if (fname!=undefined) {
+		// 	endpointLineString = endpointLineString + '?filename='+fname;
+		// }
+		// else{
+		// 	alert("filename not defined");
+		// 	return;
+		// }
+		$.ajax({
+	        method: "GET",
+	        url: endpointLineString + '?filename=' + fname,
+	        success: function(data){
+	            lineString= data[0].lineString;
+	            lineString= JSON.parse(lineString.replace(/\//g,' '));
+	            console.log(lineString);
+	            drawLineString();
+	            },
+	            error: function(error_data){
+	                console.log("error");
+	                console.log(error_data);
+	                }
+	        });
+	};
 	
-	function drdwFileName(){
-		for(var i=0;i<fileSummary.length;i++){
-    fileNames[i]= fileSummary[i].fileName;
-    }
+	function buildFilesDropdown(){
+			for(var i=0;i<fileSummary.length;i++){
+	    fileNames[i]= fileSummary[i].fileName;
+	    }
 
-	
-	$.each(fileNames, function(i, el){
-	    if($.inArray(el, uniqueFileNames) === -1) uniqueFileNames.push(el);
-	});
+		
+		$.each(fileNames, function(i, el){
+		    if($.inArray(el, uniqueFileNames) === -1) uniqueFileNames.push(el);
+		});
 
-	var select = document.createElement('select');
-	select.setAttribute("id","select_id");
-	//select.setAttribute("onchange",apiCall(this));
+		var select = document.createElement('select');
+		select.setAttribute("id","select_id");
+		//select.setAttribute("onchange",apiCall(this));
 
-	for(var i=0;i<uniqueFileNames.length;i++){
-	// Use the Option constructor: args text, value, defaultSelected, selected
-	var option = new Option(uniqueFileNames[i], uniqueFileNames[i], false, false);
-	// option.setAttribute("onchange",val(option.value));
-	// option.setAttribute("id","select_id");
-	select.appendChild(option);	
-	}
-	document.getElementById("summaryGrid").appendChild(select);
+		for(var i=0;i<uniqueFileNames.length;i++){
+		// Use the Option constructor: args text, value, defaultSelected, selected
+		var option = new Option(uniqueFileNames[i], uniqueFileNames[i], false, false);
+		// option.setAttribute("onchange",val(option.value));
+		// option.setAttribute("id","select_id");
+		select.appendChild(option);	
+		}
+		document.getElementById("summaryGrid").appendChild(select);
 	};
 
 
-		$(document).ready(function(){
+
+	function drawLineString(){
+						 	var startIcon = L.icon({
+	                        iconUrl: 'https://unpkg.com/leaflet@1.0.3/dist/images/marker-icon-2x.png',
+	                        iconSize:     [28, 45], 
+	                        iconAnchor:   [15, 44], 
+	                        popupAnchor:  [-3, -76] 
+	                    });
+						 	var stopIcon = L.icon({
+	                        iconUrl: '../static/images/Location_stop.png',
+	                        iconSize:     [28, 45], 
+	                        iconAnchor:   [15, 44], 
+	                        popupAnchor:  [-3, -76] 
+	                    });
+	                   
+	                    	if(document.getElementById('lineMapInBuilt')!=null){
+	                    	document.getElementById('lineMapInBuilt').remove();
+	                    }
+						 	document.getElementById('lineMap').innerHTML = '<div id="lineMapInBuilt" style="width: 100%; height: 300px;"></div>';
+
+
+								  var map = new L.map('lineMapInBuilt').setView([lineString.coordinates[0][1], lineString.coordinates[0][0]], 8);
+								  var OpenStreetMap_Mapnik = new L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+									maxZoom: 16,
+									attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+								});
+								map.addLayer(OpenStreetMap_Mapnik);
+
+								var Esri_WorldImagery = new L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
+	                    		map.addLayer( Esri_WorldImagery);
+
+	                    		var backgroundLayerNames = {"ESRI Aerial": Esri_WorldImagery, "OpenStreetMap Streets": OpenStreetMap_Mapnik};
+
+								L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
+								  id: 'mapbox.streets'
+								}).addTo(map);
+
+								startingPoint = L.marker([lineString.coordinates[0][1], lineString.coordinates[0][0]],{icon: startIcon}).bindPopup('Page Visit');
+	                            overlay = L.layerGroup([startingPoint]);
+	                            map.addLayer(overlay);
+
+								var aT0625124projectlimits0 = {
+								  "type": "FeatureCollection",
+								  "features": [{
+								    "type": "Feature",
+								    "geometry": lineString,
+								    "properties": {
+								      "OBJECTID": 16,
+								      "Contract_N": "AT0625124",
+								      "SHAPE_Leng": "53224.7785428",
+								      "Completion": "100"
+								    }
+								  }]
+								}
+
+								L.geoJson(aT0625124projectlimits0, {
+								  style: function(feature) {
+								    return {
+								      stroke: true,
+								      color: "blue",
+								      weight: 5
+								    };
+								  },
+								  onEachFeature: function(feature, layer) {
+								    layer.bindPopup("id: " + feature.properties.OBJECTID + "<br>" +
+								      "Contract_N: " + feature.properties.Contract_N);
+								  }
+								}).addTo(map);
+
+								L.control.layers(backgroundLayerNames,overlayPointLayerNames).addTo(map);
+							};	
+						 
+
+	// $('#select_id').change(function(){
+	// 		    // alert($(this).val());
+	// 		    //apiCall($( "#select_id" ).val());
+	// 		    apiCallLineString($( "#select_id" ).val());
+	// 		    //drawLineString();
+	// 		});
+
+	$(document).ready(function(){
 		    $('#select_id').change(function(){
 			    // alert($(this).val());
-			    apiCall($( "#select_id" ).val());
+			    //($( "#select_id" ).val());
 			    apiCallLineString($( "#select_id" ).val());
+			    apiCall($( "#select_id" ).val());
+			    //drawLineString();
 			});
-		});
-	
-
-
-
-					 function drawLineString(){
-					 	var startIcon = L.icon({
-                        iconUrl: 'https://unpkg.com/leaflet@1.0.3/dist/images/marker-icon-2x.png',
-                        iconSize:     [28, 45], 
-                        iconAnchor:   [15, 44], 
-                        popupAnchor:  [-3, -76] 
-                    });
-					 	var stopIcon = L.icon({
-                        iconUrl: '../static/images/Location_stop.png',
-                        iconSize:     [28, 45], 
-                        iconAnchor:   [15, 44], 
-                        popupAnchor:  [-3, -76] 
-                    });
-                   
-                    
-					 	document.getElementById('lineMap').innerHTML = '<div id="lineMap" style="width: 100%; height: 300px;"></div>';
-
-							  var map = new L.map('lineMap').setView([lineString.coordinates[0][1], lineString.coordinates[0][0]], 8);
-							  var OpenStreetMap_Mapnik = new L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-								maxZoom: 16,
-								attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-							});
-							map.addLayer(OpenStreetMap_Mapnik);
-
-							var Esri_WorldImagery = new L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
-                    		map.addLayer( Esri_WorldImagery);
-
-                    		var backgroundLayerNames = {"ESRI Aerial": Esri_WorldImagery, "OpenStreetMap Streets": OpenStreetMap_Mapnik};
-
-							L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
-							  id: 'mapbox.streets'
-							}).addTo(map);
-
-							startingPoint = L.marker([lineString.coordinates[0][1], lineString.coordinates[0][0]],{icon: startIcon}).bindPopup('Page Visit');
-                            overlay = L.layerGroup([startingPoint]);
-                            map.addLayer(overlay);
-
-							var aT0625124projectlimits0 = {
-							  "type": "FeatureCollection",
-							  "features": [{
-							    "type": "Feature",
-							    "geometry": lineString,
-							    "properties": {
-							      "OBJECTID": 16,
-							      "Contract_N": "AT0625124",
-							      "SHAPE_Leng": "53224.7785428",
-							      "Completion": "100"
-							    }
-							  }]
-							}
-
-							L.geoJson(aT0625124projectlimits0, {
-							  style: function(feature) {
-							    return {
-							      stroke: true,
-							      color: "blue",
-							      weight: 5
-							    };
-							  },
-							  onEachFeature: function(feature, layer) {
-							    layer.bindPopup("id: " + feature.properties.OBJECTID + "<br>" +
-							      "Contract_N: " + feature.properties.Contract_N);
-							  }
-							}).addTo(map);
-
-							L.control.layers(backgroundLayerNames,overlayPointLayerNames).addTo(map);
-						};
-
+		});	
 				
 </script>
 {% endblock content %}
