@@ -29,3 +29,36 @@ class gpxcontentTableList(APIView):
 
     def post(self):
         pass
+
+
+
+class summaryTableList(APIView):
+    def get(self,request):
+        summary=summaryTable.objects.all()
+        filename = self.request.query_params.get('filename', None)
+        if filename is not None:
+            summary = summary.filter(fileName=filename)
+        serializer=summaryTableSerializer(summary,many=True)
+        return Response(serializer.data)
+
+    def post(self):
+        pass
+
+        # queryset = Purchase.objects.all()
+        # username = self.request.query_params.get('username', None)
+        # if username is not None:
+        #     queryset = queryset.filter(purchaser__username=username)
+        # return queryset
+
+
+class gpxJsonList(APIView):
+    def get(self,request):
+        lineString=gpxJson.objects.all()
+        filename = self.request.query_params.get('filename', None)
+        if filename is not None:
+            lineString = lineString.filter(fileName=filename)
+        serializer=gpxJsonSerializer(lineString,many=True)
+        return Response(serializer.data)
+
+    def post(self):
+        pass
