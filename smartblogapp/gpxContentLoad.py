@@ -156,12 +156,13 @@ def checkTableExists(dbcon, tablename):
 def runRCode():
 	try:
 		command = 'test.R'
-		path2script = 'C:\subhajit\projectX\PyCharm-GPX'
-		cmd = [path2script,command]
-		subprocess.call("C:\subhajit\projectX\PyCharm-GPX\test.R", shell=True)
-		subprocess.check_call(['Rscript', 'test.R'], shell=False)
+		# path2script = 'C:\subhajit\projectX\PyCharm-GPX'
+		# cmd = [path2script,command]
+		subprocess.call("C:\\subhajit\\projectX\\PyCharm-GPX\\test.R", shell=True)
+		# subprocess.check_call(['Rscript', 'test.R'], shell=False)
+		# subprocess.call(['cmd', '/c', 'C:\subhajit\projectX\PyCharm-GPX\test.R'])
 		# x = subprocess.check_output(cmd, universal_newlines=True)
-		# pprint('The maximum of the numbers is:', x)
+		# pprint('The maximum of the numbers is:', "string error")
 
 
 	except Exception as ex:
@@ -194,7 +195,7 @@ def summaryAPILoad():
 	database_connection=DatabaseConnection()
 	database_connection.summaryLoad()
 	database_connection.gpxJsonLoad()
-	# runRCode()
+	runRCode()
 
 def ImageBuilder():
 	database_connection=DatabaseConnection()
