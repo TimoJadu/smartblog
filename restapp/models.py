@@ -37,6 +37,18 @@ class summaryTable(models.Model):
     Angle=models.CharField(max_length=500)
     fileName=models.CharField(max_length=500)
 
+class dataSet2Analysis(models.Model):
+    id =models.IntegerField(primary_key=True, auto_created=True)
+    fileName=models.CharField(max_length=500)    
+    altitude = models.CharField(max_length=500)
+    time = models.CharField(max_length=500)
+    Speed= models.CharField(max_length=500)    
+    TimeDiff=models.CharField(max_length=500)    
+    DeltaElev=models.CharField(max_length=500)
+    TotalDist=models.CharField(max_length=500)
+    Angle=models.CharField(max_length=500)
+
+
 class gpxJson(models.Model):
     id=models.IntegerField(primary_key=True, auto_created=True)
     fileName=models.CharField(max_length=500)

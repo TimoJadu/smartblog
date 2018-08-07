@@ -44,6 +44,19 @@ class summaryTableList(APIView):
     def post(self):
         pass
 
+
+class dataSet2AnalysisList(APIView):
+    def get(self,request):
+        summary=dataSet2Analysis.objects.all()
+        filename = self.request.query_params.get('filename', None)
+        if filename is not None:
+            summary = summary.filter(fileName=filename)
+        serializer=dataSet2AnalysisSerializer(summary,many=True)
+        return Response(serializer.data)
+
+    def post(self):
+        pass
+
         # queryset = Purchase.objects.all()
         # username = self.request.query_params.get('username', None)
         # if username is not None:

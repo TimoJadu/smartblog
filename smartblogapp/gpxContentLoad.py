@@ -92,6 +92,17 @@ class DatabaseConnection:
 			pprint("Exception is:"+ ex)
 
 
+	def dataforKMeanAnalysisLoad(self):
+		try:
+			exe_command1="delete from restapp_dataset2analysis"
+			self.cursor.execute(exe_command1)
+			exe_command='insert into restapp_dataset2analysis (id, "fileName", altitude, "time", "Speed", "TimeDiff", "DeltaElev", "TotalDist", "Angle") select (ROW_NUMBER() over (order by r.filename)), filename, altitude, "time", speed, "timeDiff", "DeltaElev", totaldist, "Angle" from "dataSet2Analysis" as r'
+			self.cursor.execute(exe_command)
+			
+		except Exception as ex:
+			pprint("Exception is:"+ ex)
+
+
 	def KmeanDataLoad(self):
 		try:
 			exe_command='select altitude, time, speed, "timeDiff", "DeltaElev", totaldist, "Angle" from "dataSet2Analysis"'
@@ -194,6 +205,7 @@ def summaryAPILoad():
 	database_connection=DatabaseConnection()
 	database_connection.summaryLoad()
 	database_connection.gpxJsonLoad()
+	database_connection.dataforKMeanAnalysisLoad()
 	# runRCode()
 
 def ImageBuilder():

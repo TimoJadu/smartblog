@@ -10,7 +10,56 @@ h1{
 
 {% block content %}
 <!--  -->
+<style>
+body {font-family: Arial;}
 
+/* Style the tab */
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #666;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #000;
+    border-top: none;
+}
+
+table tr:nth-child(odd) td{
+           background:#ccc;
+}
+table tr:nth-child(even) td{
+            background:#fff;
+}
+table, th, td {
+   border: 1px solid black;
+}
+</style>
 <!--  -->
 <div class="col-sm-6 col-sm-offset-3">
 	{% if instance.image %}
@@ -21,21 +70,6 @@ h1{
 
 	<p><div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div></p>
 	
-
-	<!-- {{ request.build_absolute_uri }} -->
-<!-- 	<a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}/">
-		Facebook | 
-	</a>
-
-	<a href="https://twitter.com/home?status=I'm%20going%20to%20learn%20to%20Code...%20Come%20build%20an%20web%20apsp%20with%20me!%20%23CFE%20and%20@justinmitchel%20{{ request.build_absolute_uri }}/">
-		Twitter | 
-	</a>
-
-	<a href='https://plus.google.com/share?url={{ request.build_absolute_uri }}'>Google Plus | </a>
-
-		<a href="https://www.linkedin.com/shareArticle?mini=true&url=http://swiftforentrepreneurs.com/&title=Be%20first%20%7C%20Join%20Swift%20for%20Entrepreneurs&summary=Swift%20for%20Entrepreneurs%20is%20a%20project-based%20programming%20course%20for%20non-technical%20founders.%20We'll%20learn%20how%20to%20build%20iOS%20apps%20from%20scratch%20using%20Apple's%20new%20programming%20language:%20Swift.%20Be%20first%20and%20learn%20with%20me!&source={{ request.build_absolute_uri }}/">
-			Linkedin
-		</a> -->
 		<div width="100%">
 			<table width="100%">
 				<tr>
@@ -94,65 +128,65 @@ h1{
 		<div class="container-fluid">
 			<div class="row"> 
 				<!-- This is the start of your web page -->				
-				<div class="col-sm-12">
-                    <h4>Files Summary</h4>
-                    <div class="row">
-                        <div id="summaryGrid" style="width: 300px; height: 140px"></div>
-                     </div>
+				<div class="col-sm-12">                
+                     <h4>Files Summary</h4>
+                     <div style="width:130%">
+					 <div class="tab">
+					 	<button class="tablinks" onclick="openCity(event, 'ElbowCurve')">Elbow Curve</button>
+					 	<button class="tablinks" onclick="openCity(event, 'ClusterStar')">Clusters</button>
+						  <button class="tablinks" onclick="openCity(event, 'SummaryTable')">Summary Table</button>
+						  <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>				  
+						</div>
+
+						<div id="SummaryTable" class="tabcontent">
+						  <table id="tbummaryTable" width="150%">
+						  	<th border-color=#000000>File Name</th>
+						  	<th>Altitude</th>
+						  	<th>Time</th>
+						  	<th>Speed</th>
+						  	<th>TimeDiff</th>
+						  	<th>Delta Elevation</th>
+						  	<th>Total Distance</th>
+						  	<th>Angle</th>
+						  </table>
+						</div>
+
+						<!-- <div id="Paris" class="tabcontent">
+						  <h3>Paris</h3>
+						  <p>Paris is the capital of France.</p> 
+						</div> -->
+						<br/>
+						<br/>
+						<div id="ClusterStar" class="tabcontent"><image src="../charts/StarPlot"/></div>
+						<br/>
+						<br/>
+						<div id="ElbowCurve" class="tabcontent"><image src="../../posts/charts/elbow.png"/></div>
+					</div>
                   </div>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                 
-                  
-				<div id="map" style="width: 70%; height: 200px"></div>				
+                  <br/>                  <br/>                  <br/>                  <br/>
+                  <br/>                  <br/>                  <br/>                  <br/>
+                  <br/>                  <br/>                  <br/>                  <br/>
+                  <br/>                  <br/>                  <br/>                  <br/>
+                  <br/>                  <br/>                  <br/>                  <br/>
+                  <br/>                  <br/>                  <br/>                  <br/>
+                  <br/>                  <br/>                  <br/>                  <br/>
+                  <br/>                 
+                
+                <h4>File Summary</h4> <br/>  
+                 <br/>  
+                <div class="row">
+                    <div id="summaryGrid" style="width: 300px; height: 140px" ></div>
+                 </div>
+				<div id="map" style="width: 70%; height: 200px" hidden="true"></div>				
 				<br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
+                  <!-- <br/>                  <br/>                  <br/>                  <br/>
+                  <br/>                  <br/>                  <br/>                  <br/> -->
                   <div id="lineMap" style="width: 100%; height: 300px;"></div>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
+                  <br/>                  <br/>                  <br/>                  <br/>
+                  <br/>                  <br/>                  <br/>                  <br/>
                   <br/>
 				<div class="col-sm-12">
-                    <h4>File Summary</h4>
+                    
                     <div class="row">
                         <div id="fileSummaryGrid" style="width: 300px; height: 340px"></div>
                      </div>
@@ -220,11 +254,6 @@ h1{
 
 				
 
-				<!-- This is the end of your web page -->
-				<!-- You should not change any code below this line -->
-<!-- If you change the code below here and it is incorrect 
-	then your web page will not display correctly -->
-
 </div> <!-- end a row -->	
 </div> <!-- close the container -->
 
@@ -237,12 +266,6 @@ h1{
  <br/>
  <input type="submit" class="btn" value="Load Summary API" name="btnSummaryAPILoad">
 </form>
-<br/>
-<br/>
-<div id="ClusterStar"><image src="../charts/StarPlot"/></div>
-<br/>
-<br/>
-<div id="ElboCurve"><image src="../../posts/charts/elbow.png"/></div>
 <br/>
 <br/>
 <p><a href="../" class="btn btn-primary" role="button">Back</a> </p>
@@ -263,7 +286,7 @@ h1{
         success: function(data){
             fileSummary= data
             console.log(data);
-            buildsummaryGrid();
+            // buildsummaryGrid();
             buildFilesDropdown();
             },
             error: function(error_data){
@@ -281,6 +304,56 @@ h1{
 	    x.appendChild(t);
 
 	    document.getElementById("summaryGrid").appendChild(x); 
+	};
+
+	// var dataSet2Analysis;
+	$.ajax({
+        method: "GET",
+        url: '../../api/dataSet2Analysis',
+        success: function(data){
+            dataSet2Analysis= data;
+            buildsummaryTable(data);
+            // console.log(data);            
+            },
+            error: function(error_data){
+                console.log("error");
+                console.log(error_data);
+                }
+        });
+	function buildsummaryTable(data) {
+		// document.getElementById("tbummaryTable").innerHTML="";
+		var tr;
+		var td;
+		var t;
+		var arr;
+		var parsed;
+		for(var v=0; v<data.length; v++){
+			tr = document.createElement("TR");
+			tr.setAttribute("width", "100%");			
+
+			parsed = JSON.parse(JSON.stringify(data[v]));
+			arr = [];
+
+			for(var x in parsed){
+			  arr.push(parsed[x]);
+			}
+
+			for(var r=1; r<arr.length; r++){
+				td = document.createElement("TD");
+				t = document.createTextNode(arr[r]);
+				td.appendChild(t);
+				tr.appendChild(td);
+			}
+			document.getElementById("tbummaryTable").appendChild(tr);
+		}
+	    // var x = document.createElement("TEXTAREA");
+	    // x.setAttribute("id","txtArea");
+	    // x.cols="80";
+	    // x.rows="25";
+	    // var t = document.createTextNode(JSON.stringify(fileSummary));
+	    // x.appendChild(t);
+
+	    // document.getElementById("tbummaryTable").appendChild(x); 
 	};
 
 	function apiCall(fname){
@@ -318,14 +391,7 @@ h1{
 	var lineString=[];
 	var endpointLineString= '../../api/lineStringJson';
 	function apiCallLineString(fname){
-		var selectedValue = fname.value;
-		// if (fname!=undefined) {
-		// 	endpointLineString = endpointLineString + '?filename='+fname;
-		// }
-		// else{
-		// 	alert("filename not defined");
-		// 	return;
-		// }
+		var selectedValue = fname.value;		
 		$.ajax({
 	        method: "GET",
 	        url: endpointLineString + '?filename=' + fname,
@@ -440,12 +506,19 @@ h1{
 							};	
 						 
 
-	// $('#select_id').change(function(){
-	// 		    // alert($(this).val());
-	// 		    //apiCall($( "#select_id" ).val());
-	// 		    apiCallLineString($( "#select_id" ).val());
-	// 		    //drawLineString();
-	// 		});
+function openCity(evt, cityName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+};
 
 	$(document).ready(function(){
 		    $('#select_id').change(function(){

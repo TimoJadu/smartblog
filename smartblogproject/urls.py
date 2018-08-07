@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^api/employee', views.employeeList.as_view()),
     url(r'^api/gpx', views.gpxcontentTableList.as_view(), name="restGPX"),
     url(r'^api/summary', views.summaryTableList.as_view(), name="restGPXSummary"),
+    url(r'^api/dataSet2Analysis', views.dataSet2AnalysisList.as_view(), name="dataSet2Analysis"),
     url(r'^api/lineStringJson', views.gpxJsonList.as_view(), name="restGPXLineString"),
     
     # url(r'^$',index), #PT branch created
