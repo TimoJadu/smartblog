@@ -31,4 +31,4 @@ class gpxJsonSerializer(serializers.ModelSerializer):
     class Meta:
         model=gpxJson
         # fields='__all__'
-        fields=('fileName','lineString')
+        fields=('__all__')
