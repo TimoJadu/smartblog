@@ -86,6 +86,15 @@ table, th, td {
 			</table>			
 			<br/>
 			<title>Location</title>
+			<div>
+				<form action="" method="GET">
+				 <input type="text" value="C:\gpxFiles\" name="mytextbox" size="50" readonly="true" />
+				 <input type="submit" class="btn" value="Upload GPX Files" name="mybtn">
+				 
+				 <br/>
+				 <input type="submit" class="btn" value="Load Summary API" name="btnSummaryAPILoad">
+				</form>
+			</div>
 
 	<!-- You should not need to edit any of the lines below here until you pass the line which says 
 		<body> -->
@@ -199,17 +208,7 @@ table, th, td {
 </div> <!-- end a row -->	
 </div> <!-- close the container -->
 
-<br/>
-<br/>
-<form action="" method="GET">
- <input type="text" value="c:/" name="mytextbox" size="50"/>
- <input type="submit" class="btn" value="Upload GPX Files" name="mybtn">
- 
- <br/>
- <input type="submit" class="btn" value="Load Summary API" name="btnSummaryAPILoad">
-</form>
-<br/>
-<br/>
+
 <p><a href="../" class="btn btn-primary" role="button">Back</a> </p>
 <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-numposts="5"></div>
 </div>

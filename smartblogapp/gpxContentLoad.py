@@ -92,6 +92,15 @@ class DatabaseConnection:
 			pprint("Exception is:"+ ex)
 
 
+	def gpxJsonUpdate(self):
+		try:			
+			exe_command = 'update restapp_gpxJson as rg SET "GroupNumber" = ci."GroupNumber"  FROM "clusterInfo" as ci WHERE ci.filename = rg."fileName"'
+			self.cursor.execute(exe_command)
+			
+		except Exception as ex:
+			pprint("Exception is:"+ ex)
+
+
 	def dataforKMeanAnalysisLoad(self):
 		try:
 			exe_command1="delete from restapp_dataset2analysis"
@@ -205,6 +214,7 @@ def summaryAPILoad():
 	database_connection=DatabaseConnection()
 	database_connection.summaryLoad()
 	database_connection.gpxJsonLoad()
+	database_connection.gpxJsonUpdate()
 	database_connection.dataforKMeanAnalysisLoad()
 	# runRCode()
 
