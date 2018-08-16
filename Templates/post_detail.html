@@ -142,7 +142,7 @@ table, th, td {
                      <div style="width:130%">
 					 <div class="tab">
 					 	<button class="tablinks" onclick="openCity(event, 'ElbowCurve')">Elbow Curve</button>
-					 	<button class="tablinks" onclick="openCity(event, 'ClusterStar')">Clusters</button>
+					 	<button id="btnClusterStar" class="tablinks" onclick="openCity(event, 'ClusterStar')">Clusters</button>
 						  <button class="tablinks" onclick="openCity(event, 'SummaryTable')">Summary Table</button>
 						  <!-- <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>				   -->
 						</div>
@@ -159,11 +159,6 @@ table, th, td {
 						  	<th>Angle</th>
 						  </table>
 						</div>
-
-						<!-- <div id="Paris" class="tabcontent">
-						  <h3>Paris</h3>
-						  <p>Paris is the capital of France.</p> 
-						</div> -->
 						<br/>
 						<br/>
 						<div id="ClusterStar" class="tabcontent"><image src="../charts/StarPlot"/></div>
@@ -195,15 +190,9 @@ table, th, td {
                   <br/>
                   <button id="btnSimilar" onclick="Showsimilarplots()">Show similar plots</button>
                   <div id="ClusteredlineMap" style="width: 100%; height: 300px;"></div>
-				<div class="col-sm-12">
+				<div class="col-sm-12">                    
                     
-                    <div class="row">
-                        <div id="fileSummaryGrid" style="width: 300px; height: 340px"></div>
-                     </div>
-                  </div>
-		
-
-				
+                  </div>					
 
 </div> <!-- end a row -->	
 </div> <!-- close the container -->
@@ -212,6 +201,10 @@ table, th, td {
 <p><a href="../" class="btn btn-primary" role="button">Back</a> </p>
 <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-numposts="5"></div>
 </div>
+
+					<div class="row" hidden="true">
+                        <div id="fileSummaryGrid" style="width: 300px; height: 340px"></div>
+                    </div>
 
 </div>
 
@@ -227,7 +220,6 @@ table, th, td {
         success: function(data){
             fileSummary= data
             console.log(data);
-            // buildsummaryGrid();
             buildFilesDropdown();
             },
             error: function(error_data){
@@ -246,8 +238,7 @@ table, th, td {
 
 	    document.getElementById("summaryGrid").appendChild(x); 
 	};
-
-	// var dataSet2Analysis;
+	
 	$.ajax({
         method: "GET",
         url: '../../api/dataSet2Analysis',
@@ -261,8 +252,7 @@ table, th, td {
                 console.log(error_data);
                 }
         });
-	function buildsummaryTable(data) {
-		// document.getElementById("tbummaryTable").innerHTML="";
+	function buildsummaryTable(data) {		
 		var tr;
 		var td;
 		var t;
@@ -287,21 +277,10 @@ table, th, td {
 			}
 			document.getElementById("tbummaryTable").appendChild(tr);
 		}
-	    // var x = document.createElement("TEXTAREA");
-	    // x.setAttribute("id","txtArea");
-	    // x.cols="80";
-	    // x.rows="25";
-	    // var t = document.createTextNode(JSON.stringify(fileSummary));
-	    // x.appendChild(t);
-
-	    // document.getElementById("tbummaryTable").appendChild(x); 
 	};
 
 	function apiCall(fname){
 		var selectedValue = fname.value;
-		// if (fname!=undefined) {
-		// 	endpoint = endpoint + '?filename='+fname
-		// }
 
 		$.ajax({
 	        method: "GET",
@@ -309,18 +288,6 @@ table, th, td {
 	        success: function(data){
 	            fileSummary= data
 	            console.log(data);
-	            
-				// if(document.getElementById("fileSummaryGrid").childNodes.length>0){
-				// 	document.getElementById("fileSummaryGrid").innerHTML='';
-				// }
-	   //          var x = document.createElement("TEXTAREA");
-				//  x.setAttribute("id","txtArea");
-				//  x.cols="80";
-				//  x.rows="25";
-				//  var t = document.createTextNode(JSON.stringify(fileSummary));
-				//  x.appendChild(t);
-
-				//  document.getElementById("fileSummaryGrid").appendChild(x);
 	            },
 	            error: function(error_data){
 	                console.log("error");
@@ -331,8 +298,7 @@ table, th, td {
 
 	var lineString=[];
 	var lineStringInfo=[];
-	function apiCallLineString(fname){
-		// var selectedValue = fname.value;		
+	function apiCallLineString(fname){	
 		var endpointLineString= '../../api/lineStringJson';
 
 		if (fname != undefined) { endpointLineString = endpointLineString  + '?filename=' + fname}
@@ -363,7 +329,6 @@ table, th, td {
 			for(var i=0;i<fileSummary.length;i++){
 	    fileNames[i]= fileSummary[i].fileName;
 	    }
-
 		
 		$.each(fileNames, function(i, el){
 		    if($.inArray(el, uniqueFileNames) === -1) uniqueFileNames.push(el);
@@ -371,14 +336,11 @@ table, th, td {
 
 		var select = document.createElement('select');
 		select.setAttribute("id","select_id");
-		//select.setAttribute("onchange",apiCall(this));
+		select.setAttribute("onchange", "fileSelectionChanged()")		
 
-		for(var i=0;i<uniqueFileNames.length;i++){
-		// Use the Option constructor: args text, value, defaultSelected, selected
-		var option = new Option(uniqueFileNames[i], uniqueFileNames[i], false, false);
-		// option.setAttribute("onchange",val(option.value));
-		// option.setAttribute("id","select_id");
-		select.appendChild(option);	
+		for(var i=0;i<uniqueFileNames.length;i++){		
+			var option = new Option(uniqueFileNames[i], uniqueFileNames[i], false, false);
+			select.appendChild(option);	
 		}
 		document.getElementById("summaryGrid").appendChild(select);
 	};
@@ -386,6 +348,11 @@ table, th, td {
 	function Showsimilarplots(){
 		apiCallLineString();
 	};
+
+	function fileSelectionChanged(){
+		 		apiCallLineString($( "#select_id" ).val());
+			    apiCall($( "#select_id" ).val());
+	}
 
 	function drawLineString(pathGroupstoDraw){
 						 	var startIcon = L.icon({
@@ -464,14 +431,13 @@ table, th, td {
 							}
 							
 						 	else{
-						 		alert($("#select_id").val());
+						 		alert("You chose : " + $("#select_id").val() + " track");
 						 		var GroupNumber;
 						 		for(var n=0; n < lineStringInfo.length; n++){
 						 			if(lineStringInfo[n].fileName == $("#select_id").val()){
 						 				GroupNumber = lineStringInfo[n].GroupNumber;
 						 			}
-						 		}
-						 		alert(GroupNumber);
+						 		}						 		
 
 						 		var filteredlineStringInfo=[];
 						 		for(var n=0; n < lineStringInfo.length; n++){
@@ -479,6 +445,8 @@ table, th, td {
 						 				filteredlineStringInfo.push(lineStringInfo[n]);
 						 			}
 						 		}
+
+						 		alert("The no of similar tracks available = "+ filteredlineStringInfo.length);
 
 						 		if(document.getElementById('ClusteredlineMapInBuilt')!=null){
 	                    	document.getElementById('ClusteredlineMapInBuilt').remove();
@@ -554,13 +522,7 @@ function openCity(evt, cityName) {
 };
 
 	$(document).ready(function(){
-		    $('#select_id').change(function(){
-			    // alert($(this).val());
-			    //($( "#select_id" ).val());
-			    apiCallLineString($( "#select_id" ).val());
-			    apiCall($( "#select_id" ).val());
-			    //drawLineString();
-			});
+			$("#btnClusterStar").trigger('click');
 		});	
 				
 </script>

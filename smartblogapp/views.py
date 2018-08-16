@@ -144,8 +144,7 @@ def kElbowCurve(request):
 	    kmeans = KMeans(n_clusters=k)
 	    kmeans.fit(X)
 	    distorsions.append(kmeans.inertia_)
-
-	# fig = plt.figure(figsize=(15, 5))
+	
 	fig = plt.figure(1, figsize=(10,12))
 	plt.plot(range(1,20), distorsions)
 	plt.grid(True)
@@ -154,7 +153,7 @@ def kElbowCurve(request):
 	canvas=FigureCanvas(fig)
 	response=django.http.HttpResponse(content_type='image/png')
 	canvas.print_png(response)
-	# Image end
+	
 	return response
 
 
