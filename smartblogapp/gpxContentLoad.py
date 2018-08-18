@@ -194,11 +194,11 @@ def startingPoint(path):
 				  if any(fn.endswith(ext) for ext in extenstions)]
 	#filesAvl= os.listdir(path)
 	database_connection=DatabaseConnection()
-	if (checkTableExists(database_connection.connection, "gpxcontentTable") == False):
-		# database_connection.drop_table()
-		database_connection.create_table()
-	else:
-		database_connection.create_table()
+	# if (checkTableExists(database_connection.connection, "gpxcontentTable") == False):
+	# 	# database_connection.drop_table()
+	# 	database_connection.create_table()
+	# else:
+	# 	database_connection.create_table()
 	for j in filesAvl:
 		tempDF=loadData(path, j)
 		for i in tempDF:
@@ -209,6 +209,15 @@ def startingPoint(path):
 	database_connection.determine_geom_Point()
 	# database_connection.postgresql_to_CSV(path)
 	# runRCode()
+
+def ResetLoadingTable():
+	database_connection=DatabaseConnection()
+	try:
+		database_connection.drop_table()
+		database_connection.create_table()
+
+	except Exception as ex:
+		database_connection.create_table()
 
 def summaryAPILoad():
 	database_connection=DatabaseConnection()

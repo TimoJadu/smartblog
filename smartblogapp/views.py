@@ -84,6 +84,9 @@ def post_details(request, id=None):
 	if(request.GET.get('mybtn')):
 		startingPoint(request.GET.get('mytextbox'))
 
+	if(request.GET.get('btnReset')):
+		ResetLoadingTable()
+
 	if(request.GET.get('btnSummaryAPILoad')):
 		summaryAPILoad()
 	instance = get_object_or_404(Post, id=id)
@@ -229,4 +232,8 @@ def drawImage(request):
 
 def local_plot_image(request):
     image_data = open("C://subhajit//projectX//smartblog//smartblogproject//Plots//ClusterPlot.jpg", "rb").read()
+    return HttpResponse(image_data, content_type="image/jpeg")
+
+def dendo_plot_image(request):
+    image_data = open("C://subhajit//projectX//smartblog//smartblogproject//Plots//DendoPlot.jpg", "rb").read()
     return HttpResponse(image_data, content_type="image/jpeg")

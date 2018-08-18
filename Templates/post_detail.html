@@ -88,9 +88,11 @@ table, th, td {
 			<title>Location</title>
 			<div>
 				<form action="" method="GET">
-				 <input type="text" value="C:\gpxFiles\" name="mytextbox" size="50" readonly="true" />
-				 <input type="submit" class="btn" value="Upload GPX Files" name="mybtn">
-				 
+					<br/>
+				 <input type="submit" class="btn" value="Reset Loading" name="btnReset">
+				 <br/>
+				 <input type="text" value="C:\gpxFiles\" name="mytextbox" size="50" readonly="true" />				 
+				 <input type="submit" class="btn" value="Upload GPX Files" name="mybtn">				 
 				 <br/>
 				 <input type="submit" class="btn" value="Load Summary API" name="btnSummaryAPILoad">
 				</form>
@@ -142,7 +144,8 @@ table, th, td {
                      <div style="width:130%">
 					 <div class="tab">
 					 	<button class="tablinks" onclick="openCity(event, 'ElbowCurve')">Elbow Curve</button>
-					 	<button id="btnClusterStar" class="tablinks" onclick="openCity(event, 'ClusterStar')">Clusters</button>
+					 	<button id="btnClusterStar" class="tablinks" onclick="openCity(event, 'ClusterStar')">K-means Clusters</button>
+						  <button class="tablinks" onclick="openCity(event, 'dvDendogram')">Dendogram</button>
 						  <button class="tablinks" onclick="openCity(event, 'SummaryTable')">Summary Table</button>
 						  <!-- <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>				   -->
 						</div>
@@ -162,6 +165,7 @@ table, th, td {
 						<br/>
 						<br/>
 						<div id="ClusterStar" class="tabcontent"><image src="../charts/StarPlot"/></div>
+						<div id="dvDendogram" class="tabcontent"><image src="../charts/DendoPlot"/></div>
 						<br/>
 						<br/>
 						<div id="ElbowCurve" class="tabcontent"><image src="../../posts/charts/elbow"/></div>
