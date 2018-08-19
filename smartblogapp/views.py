@@ -64,7 +64,7 @@ def post_home(request):
 	if request.user.is_authenticated:
 		context = {
 			"object_list": querySet,
-			"title": "Welcome",
+			"title": "GPX Blog",
 			"page_request_var": page_request_var
 		}
 	else:

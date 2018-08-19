@@ -122,6 +122,17 @@ class DatabaseConnection:
 		except Exception as ex:
 			pprint("Exception is:" + ex)
 
+	def truncateSummarytable(self):
+		try:
+			exe_command='truncate table restapp_summarytable'
+			self.cursor.execute(exe_command)
+
+			exe_command1='truncate table summarytable'
+			self.cursor.execute(exe_command1)
+			
+		except Exception as ex:
+			pprint("Exception is:" + ex)
+
 
 	@property
 	def obj(self):
@@ -215,6 +226,7 @@ def ResetLoadingTable():
 	try:
 		database_connection.drop_table()
 		database_connection.create_table()
+		database_connection.truncateSummarytable()
 
 	except Exception as ex:
 		database_connection.create_table()
