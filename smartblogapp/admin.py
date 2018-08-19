@@ -22,8 +22,6 @@ class PostModelAdmin(admin.ModelAdmin):
 
 admin.site.register(Post, PostModelAdmin)
 admin.site.register(gpxcontentTable)
-admin.site.register(employees)
-
 admin.site.register(summaryTable)
 admin.site.register(gpxJson)
 

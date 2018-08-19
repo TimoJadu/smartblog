@@ -64,7 +64,7 @@ def post_home(request):
 	if request.user.is_authenticated:
 		context = {
 			"object_list": querySet,
-			"title": "Welcome",
+			"title": "GPX Blog",
 			"page_request_var": page_request_var
 		}
 	else:
@@ -83,6 +83,9 @@ def post_home(request):
 def post_details(request, id=None):
 	if(request.GET.get('mybtn')):
 		startingPoint(request.GET.get('mytextbox'))
+
+	if(request.GET.get('btnReset')):
+		ResetLoadingTable()
 
 	if(request.GET.get('btnSummaryAPILoad')):
 		summaryAPILoad()
@@ -144,8 +147,7 @@ def kElbowCurve(request):
 	    kmeans = KMeans(n_clusters=k)
 	    kmeans.fit(X)
 	    distorsions.append(kmeans.inertia_)
-
-	# fig = plt.figure(figsize=(15, 5))
+	
 	fig = plt.figure(1, figsize=(10,12))
 	plt.plot(range(1,20), distorsions)
 	plt.grid(True)
@@ -154,7 +156,7 @@ def kElbowCurve(request):
 	canvas=FigureCanvas(fig)
 	response=django.http.HttpResponse(content_type='image/png')
 	canvas.print_png(response)
-	# Image end
+	
 	return response
 
 
@@ -230,4 +232,8 @@ def drawImage(request):
 
 def local_plot_image(request):
     image_data = open("C://subhajit//projectX//smartblog//smartblogproject//Plots//ClusterPlot.jpg", "rb").read()
+    return HttpResponse(image_data, content_type="image/jpeg")
+
+def dendo_plot_image(request):
+    image_data = open("C://subhajit//projectX//smartblog//smartblogproject//Plots//DendoPlot.jpg", "rb").read()
     return HttpResponse(image_data, content_type="image/jpeg")

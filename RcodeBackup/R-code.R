@@ -138,7 +138,6 @@ DistanceCalc<- function(x){
     }
     else{
       vect<- c(vect,0)
-      
     }
     filenameTemp=x$filename[i]
   }
@@ -224,7 +223,7 @@ for(i in 1:length(unique(gpxcontent$filename))){
   summaryList[[length(summaryList)+1]] <- list(dff)
   
   dbWriteTable(con, "summarytable", 
-               value = dff, append = TRUE, row.names = FALSE)
+               value = dff, row.names = FALSE, append=TRUE)
 }
 
 
@@ -257,22 +256,22 @@ populate_dataset2Analysis<- function (fname){
     break}
   }
   
-  
   v<- ymd_hms(trimws(strsplit(summaryList[[j]][[1]][["time"]][1]," :")[[1]][2],which='b'),tz=Sys.timezone())
   v1<- ymd_hms(trimws(strsplit(summaryList[[j]][[1]][["time"]][6]," :")[[1]][2],which='b'),tz=Sys.timezone())
   
   dataR<- c(fname,
             #altitude
-            as.numeric(strsplit(summaryList[[j]][[1]][["altitude"]][6],":")[[1]][2])- as.numeric(strsplit(summaryList[[1]][[1]][["altitude"]][1],":")[[1]][2]),
+            as.numeric(strsplit(summaryList[[j]][[1]][["altitude"]][6],":")[[1]][2])
+              - as.numeric(strsplit(summaryList[[1]][[1]][["altitude"]][1],":")[[1]][2]),
             #time
-            difftime(v,v1, units = "secs"),
+            difftime(v1,v, units = "secs"),
             #speed
             as.numeric(strsplit(summaryList[[j]][[1]][["speed"]][3],":")[[1]][2]),
             #timediff
             as.numeric(strsplit(summaryList[[j]][[1]][["TimeDiff"]][3],":")[[1]][2]),
-            
             #DeltaElev
-            as.numeric(strsplit(summaryList[[j]][[1]][["DeltaElev"]][6],":")[[1]][2])- as.numeric(strsplit(summaryList[[1]][[1]][["DeltaElev"]][1],":")[[1]][2]),
+            as.numeric(strsplit(summaryList[[j]][[1]][["DeltaElev"]][6],":")[[1]][2])
+              - as.numeric(strsplit(summaryList[[1]][[1]][["DeltaElev"]][1],":")[[1]][2]),
             #GeoPointDistance
             sum(gpxcontent[gpxcontent$filename==fname,]$GeoPointsDist),
             #Angle
@@ -299,21 +298,69 @@ colnames(dataSet2Analysis) <- c("filename",
 #typeof(dataSet2Analysis)
 dataSet2Analysis <- as.data.frame(dataSet2Analysis)
 #typeof(dataSet2Analysis)
-dataSet2Analysis$altitude<- as.numeric(dataSet2Analysis$altitude)
-dataSet2Analysis$time<- as.numeric(dataSet2Analysis$time)
-dataSet2Analysis$speed<- as.numeric(dataSet2Analysis$speed)
-dataSet2Analysis$timeDiff<- as.numeric(dataSet2Analysis$timeDiff)
-dataSet2Analysis$DeltaElev<- as.numeric(dataSet2Analysis$DeltaElev)
-dataSet2Analysis$totaldist<- as.numeric(dataSet2Analysis$totaldist)
-dataSet2Analysis$Angle<- as.numeric(dataSet2Analysis$Angle)
+#dataSet2Analysis$altitude<- as.numeric(dataSet2Analysis$altitude)
+#dataSet2Analysis$time<- as.numeric(dataSet2Analysis$time)
+#dataSet2Analysis$speed<- as.numeric(dataSet2Analysis$speed)
+#dataSet2Analysis$timeDiff<- as.numeric(dataSet2Analysis$timeDiff)
+#dataSet2Analysis$DeltaElev<- as.numeric(dataSet2Analysis$DeltaElev)
+#dataSet2Analysis$totaldist<- as.numeric(dataSet2Analysis$totaldist)
+#dataSet2Analysis$Angle<- as.numeric(dataSet2Analysis$Angle)
 rownames(dataSet2Analysis) <- dataSet2Analysis$filename
 
 #str(dataSet2Analysis)
-?kmeans
+
 clusterset<- dataSet2Analysis[,-1]
 km <- kmeans(clusterset, 4,nstart=10)
 clusk <- km$cluster
 o <- order(clusk)
-stars(clusterset[o,],nrow=3, col.stars=clusk[o]+1)
+stars(clusterset[o,],nrow=3, col.stars=clusk[o]+1, col.segments = c(2,3,4,5))
+dev.copy(jpeg,filename="C:\\subhajit\\projectX\\smartblog\\smartblogproject\\Plots\\ClusterPlot.jpg")
+dev.off ()
+#?dev.print
+?order
+?stars
 #######################################End:#############################################
 
+dbWriteTable(con, "dataSet2Analysis", 
+             value = dataSet2Analysis, row.names = FALSE,overwrite=TRUE)
+
+
+
+clusterInfo<- c()
+non<- as.data.frame(names(clusk))
+non2<- as.data.frame(clusk)
+non2['activity_19578949_complex_looped.gpx',]
+rownames(non2)<-c()
+colnames(non2)<- c()
+
+rownames(non)<-c()
+colnames(non)<- c()
+
+clusterInfo<- cbind(non,non2)
+
+colnames(clusterInfo)<- c("filename","GroupNumber")
+dim(clusterInfo)
+typeof(clusterInfo)
+
+dbWriteTable(con, "clusterInfo", 
+             value = clusterInfo, row.names = FALSE,overwrite=TRUE)
+
+
+####################################
+#install.packages("dendextend")
+d<- dist(clusterset[,7],"euclidean")
+h<- hclust(d,"single")
+d1 <- as.dendrogram(h)
+library(dendextend)
+d2=color_branches(d1,k=4, col=c(2,5,3,4)) # auto-coloring 4 clusters of branches.
+plot(d2)
+
+
+
+d<- dist(dataSet2Analysis[,8],"euclidean")
+h<- hclust(d,"average")
+d1 <- as.dendrogram(h)
+d2=color_branches(d1,k=4,col=c(2,5,3,4)) # auto-coloring 4 clusters of branches.
+plot(d2)
+dev.copy(jpeg,filename="C:\\subhajit\\projectX\\smartblog\\smartblogproject\\Plots\\DendoPlot.jpg")
+dev.off ()

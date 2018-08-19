@@ -12,6 +12,7 @@ from .views import(
 	drawImage,
 	kElbowCurve,
 	local_plot_image,
+	dendo_plot_image,
 	)
 
 app_name = 'posts'
@@ -24,7 +25,8 @@ urlpatterns = [
     url(r'^retrieve/$', post_Retrieve),
     url(r'^(?P<id>\d+)/delete/$', post_Delete, name="delete"),
     url(r'^(?P<id>\d+)/$', post_details, name='detail'),    
-    url(r'^charts/simple.png$', drawImage, name="Image"),
-    url(r'^charts/elbow.png$', kElbowCurve, name="ElbowCurve"),    
+    url(r'^charts/simple$', drawImage, name="Image"),
+    url(r'^charts/elbow$', kElbowCurve, name="ElbowCurve"),    
     url(r'^charts/StarPlot$', local_plot_image, name="local_plot_image"),
+    url(r'^charts/DendoPlot$', dendo_plot_image, name="dendo_plot_image"),
 ]

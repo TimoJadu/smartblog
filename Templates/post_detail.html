@@ -10,7 +10,56 @@ h1{
 
 {% block content %}
 <!--  -->
+<style>
+body {font-family: Arial;}
 
+/* Style the tab */
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #666;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #000;
+    border-top: none;
+}
+
+table tr:nth-child(odd) td{
+           background:#ccc;
+}
+table tr:nth-child(even) td{
+            background:#fff;
+}
+table, th, td {
+   border: 1px solid black;
+}
+</style>
 <!--  -->
 <div class="col-sm-6 col-sm-offset-3">
 	{% if instance.image %}
@@ -21,21 +70,6 @@ h1{
 
 	<p><div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div></p>
 	
-
-	<!-- {{ request.build_absolute_uri }} -->
-<!-- 	<a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}/">
-		Facebook | 
-	</a>
-
-	<a href="https://twitter.com/home?status=I'm%20going%20to%20learn%20to%20Code...%20Come%20build%20an%20web%20apsp%20with%20me!%20%23CFE%20and%20@justinmitchel%20{{ request.build_absolute_uri }}/">
-		Twitter | 
-	</a>
-
-	<a href='https://plus.google.com/share?url={{ request.build_absolute_uri }}'>Google Plus | </a>
-
-		<a href="https://www.linkedin.com/shareArticle?mini=true&url=http://swiftforentrepreneurs.com/&title=Be%20first%20%7C%20Join%20Swift%20for%20Entrepreneurs&summary=Swift%20for%20Entrepreneurs%20is%20a%20project-based%20programming%20course%20for%20non-technical%20founders.%20We'll%20learn%20how%20to%20build%20iOS%20apps%20from%20scratch%20using%20Apple's%20new%20programming%20language:%20Swift.%20Be%20first%20and%20learn%20with%20me!&source={{ request.build_absolute_uri }}/">
-			Linkedin
-		</a> -->
 		<div width="100%">
 			<table width="100%">
 				<tr>
@@ -52,6 +86,17 @@ h1{
 			</table>			
 			<br/>
 			<title>Location</title>
+			<div>
+				<form action="" method="GET">
+					<br/>
+				 <input type="submit" class="btn" value="Reset Loading" name="btnReset">
+				 <br/>
+				 <input type="text" value="C:\gpxFiles\" name="mytextbox" size="50" readonly="true" />				 
+				 <input type="submit" class="btn" value="Upload GPX Files" name="mybtn">				 
+				 <br/>
+				 <input type="submit" class="btn" value="Load Summary API" name="btnSummaryAPILoad">
+				</form>
+			</div>
 
 	<!-- You should not need to edit any of the lines below here until you pass the line which says 
 		<body> -->
@@ -94,160 +139,76 @@ h1{
 		<div class="container-fluid">
 			<div class="row"> 
 				<!-- This is the start of your web page -->				
-				<div class="col-sm-12">
-                    <h4>Files Summary</h4>
-                    <div class="row">
-                        <div id="summaryGrid" style="width: 300px; height: 140px"></div>
-                     </div>
+				<div class="col-sm-12">                
+                     <h4>Files Summary</h4>
+                     <div style="width:130%">
+					 <div class="tab">
+					 	<button class="tablinks" onclick="openCity(event, 'ElbowCurve')">Elbow Curve</button>
+					 	<button id="btnClusterStar" class="tablinks" onclick="openCity(event, 'ClusterStar')">K-means Clusters</button>
+						  <button class="tablinks" onclick="openCity(event, 'dvDendogram')">Dendogram</button>
+						  <button class="tablinks" onclick="openCity(event, 'SummaryTable')">Summary Table</button>
+						  <!-- <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>				   -->
+						</div>
+
+						<div id="SummaryTable" class="tabcontent">
+						  <table id="tbummaryTable" width="150%">
+						  	<th border-color=#000000>File Name</th>
+						  	<th>Altitude</th>
+						  	<th>Time</th>
+						  	<th>Speed</th>
+						  	<th>TimeDiff</th>
+						  	<th>Delta Elevation</th>
+						  	<th>Total Distance</th>
+						  	<th>Angle</th>
+						  </table>
+						</div>
+						<br/>
+						<br/>
+						<div id="ClusterStar" class="tabcontent"><image src="../charts/StarPlot"/></div>
+						<div id="dvDendogram" class="tabcontent"><image src="../charts/DendoPlot"/></div>
+						<br/>
+						<br/>
+						<div id="ElbowCurve" class="tabcontent"><image src="../../posts/charts/elbow"/></div>
+					</div>
                   </div>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                 
-                  
-				<div id="map" style="width: 70%; height: 200px"></div>				
+                  <br/>                  <br/>                  <br/>                  <br/>
+                  <br/>                  <br/>                  <br/>                  <br/>
+                  <br/>                  <br/>                  <br/>                  <br/>
+                  <br/>                  <br/>                  <br/>                  <br/>
+                  <br/>                  <br/>                  <br/>                  <br/>
+                  <br/>                  <br/>                  <br/>                  <br/>
+                  <br/>                  <br/>                  <br/>                  <br/>
+                  <br/>                 
+                
+                <h4>File Summary</h4> <br/>  
+                 <br/>  
+                <div class="row">
+                    <div id="summaryGrid" style="width: auto; height: auto" ></div>
+                 </div>
+				<div id="map" style="width: 70%; height: 200px" hidden="true"></div>				
 				<br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
+                  
                   <div id="lineMap" style="width: 100%; height: 300px;"></div>
+                  <br/>                  <br/>                  <br/>                  <br/>
+                  <br/>                  <br/>                  <br/>                  <br/>
                   <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-				<div class="col-sm-12">
-                    <h4>File Summary</h4>
-                    <div class="row">
-                        <div id="fileSummaryGrid" style="width: 300px; height: 340px"></div>
-                     </div>
-                  </div>
-				<script>
-					<!-- Starting latitude and longitude of the center of the map -->
-					<!-- Here is the CENTER coordinates of our map -->
-					{% if instance.latitude %}
-					var LatitudeCenter = {{ instance.latitude }};
-					{% endif %}
-					{% if instance.longitude %}
-					var LongitudeCenter = {{ instance.longitude }};
-					{% endif %}
-
-					<!-- here is the starting zoom level of our map -->
-					var ZoomLevel = 16;
-					var mymap = L.map('map', {
-						center: [LatitudeCenter,  LongitudeCenter],
-						zoom: ZoomLevel
-					});
-
-					<!-- select our background layers - usually from the Leaflet Layer Providers website -->
-					<!-- The first layer here will be the one which is 'switched on' when the user loads the page -->
-
-					var OpenStreetMap_Mapnik = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-						maxZoom: 19,
-						attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-					});
-					mymap.addLayer(OpenStreetMap_Mapnik);
-
-					var Esri_WorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-						attribution: ''
-					});
-					mymap.addLayer( Esri_WorldImagery);
-
-
-					<!-- buildings around the university - add a few -->
-					var EolasBuilding = L.marker([LatitudeCenter, LongitudeCenter]).bindPopup('Bloggers place');
-
-					<!-- Create a layer to put these points into -->
-					var overlayPointLayerUni = L.layerGroup([EolasBuilding]);
-
-					<!-- add this layer directly to the map - this layer will be visible immediately -->
-					mymap.addLayer(overlayPointLayerUni);
-
-					<!-- Shops around Maynooth -->
-
-					<!-- Create a layer to put these points into -->
-					// var overlayPointLayerShops = L.layerGroup([TescoMaynooth,AldiMaynooth]);
-
-					<!-- add this layer directly to the map - this layer will be visible immediately -->
-					// mymap.addLayer(overlayPointLayerShops);
-
-					<!-- Create the information for the layer switcher so users know which background layer is on or off -->
-					var backgroundLayerNames = {"ESRI Aerial": Esri_WorldImagery, "OpenStreetMap Streets": OpenStreetMap_Mapnik};
-
-					<!-- Create the information for the layer switcher so users know which foreground layer is on or off -->
-					var overlayPointLayerNames = {"Bloggers Location": overlayPointLayerUni};
-
-					<!-- This creates the layer switcher in the top corner of your map container -->
-					<!-- This allows you to switch between the layers - turning them on or off -->
-					L.control.layers(backgroundLayerNames,overlayPointLayerNames).addTo(mymap);
-
-				</script>
-
-				
-
-				<!-- This is the end of your web page -->
-				<!-- You should not change any code below this line -->
-<!-- If you change the code below here and it is incorrect 
-	then your web page will not display correctly -->
+                  <button id="btnSimilar" onclick="Showsimilarplots()">Show similar plots</button>
+                  <div id="ClusteredlineMap" style="width: 100%; height: 300px;"></div>
+				<div class="col-sm-12">                    
+                    
+                  </div>					
 
 </div> <!-- end a row -->	
 </div> <!-- close the container -->
 
-<br/>
-<br/>
-<form action="" method="GET">
- <input type="text" value="c:/" name="mytextbox" size="50"/>
- <input type="submit" class="btn" value="Upload GPX Files" name="mybtn">
- 
- <br/>
- <input type="submit" class="btn" value="Load Summary API" name="btnSummaryAPILoad">
-</form>
-<br/>
-<br/>
-<div id="ClusterStar"><image src="../charts/StarPlot"/></div>
-<br/>
-<br/>
-<div id="ElboCurve"><image src="../../posts/charts/elbow.png"/></div>
-<br/>
-<br/>
+
 <p><a href="../" class="btn btn-primary" role="button">Back</a> </p>
 <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-numposts="5"></div>
 </div>
+
+					<div class="row" hidden="true">
+                        <div id="fileSummaryGrid" style="width: 300px; height: 340px"></div>
+                    </div>
 
 </div>
 
@@ -263,7 +224,6 @@ h1{
         success: function(data){
             fileSummary= data
             console.log(data);
-            buildsummaryGrid();
             buildFilesDropdown();
             },
             error: function(error_data){
@@ -282,12 +242,49 @@ h1{
 
 	    document.getElementById("summaryGrid").appendChild(x); 
 	};
+	
+	$.ajax({
+        method: "GET",
+        url: '../../api/dataSet2Analysis',
+        success: function(data){
+            dataSet2Analysis= data;
+            buildsummaryTable(data);
+            // console.log(data);            
+            },
+            error: function(error_data){
+                console.log("error");
+                console.log(error_data);
+                }
+        });
+	function buildsummaryTable(data) {		
+		var tr;
+		var td;
+		var t;
+		var arr;
+		var parsed;
+		for(var v=0; v<data.length; v++){
+			tr = document.createElement("TR");
+			tr.setAttribute("width", "100%");			
+
+			parsed = JSON.parse(JSON.stringify(data[v]));
+			arr = [];
+
+			for(var x in parsed){
+			  arr.push(parsed[x]);
+			}
+
+			for(var r=1; r<arr.length; r++){
+				td = document.createElement("TD");
+				t = document.createTextNode(arr[r]);
+				td.appendChild(t);
+				tr.appendChild(td);
+			}
+			document.getElementById("tbummaryTable").appendChild(tr);
+		}
+	};
 
 	function apiCall(fname){
 		var selectedValue = fname.value;
-		// if (fname!=undefined) {
-		// 	endpoint = endpoint + '?filename='+fname
-		// }
 
 		$.ajax({
 	        method: "GET",
@@ -295,18 +292,6 @@ h1{
 	        success: function(data){
 	            fileSummary= data
 	            console.log(data);
-	            
-				if(document.getElementById("fileSummaryGrid").childNodes.length>0){
-					document.getElementById("fileSummaryGrid").innerHTML='';
-				}
-	            var x = document.createElement("TEXTAREA");
-				 x.setAttribute("id","txtArea");
-				 x.cols="80";
-				 x.rows="25";
-				 var t = document.createTextNode(JSON.stringify(fileSummary));
-				 x.appendChild(t);
-
-				 document.getElementById("fileSummaryGrid").appendChild(x);
 	            },
 	            error: function(error_data){
 	                console.log("error");
@@ -316,24 +301,26 @@ h1{
 	};
 
 	var lineString=[];
-	var endpointLineString= '../../api/lineStringJson';
-	function apiCallLineString(fname){
-		var selectedValue = fname.value;
-		// if (fname!=undefined) {
-		// 	endpointLineString = endpointLineString + '?filename='+fname;
-		// }
-		// else{
-		// 	alert("filename not defined");
-		// 	return;
-		// }
+	var lineStringInfo=[];
+	function apiCallLineString(fname){	
+		var endpointLineString= '../../api/lineStringJson';
+
+		if (fname != undefined) { endpointLineString = endpointLineString  + '?filename=' + fname}
 		$.ajax({
 	        method: "GET",
-	        url: endpointLineString + '?filename=' + fname,
+	        url: endpointLineString,
 	        success: function(data){
+	        	if(data.length==1){
 	            lineString= data[0].lineString;
 	            lineString= JSON.parse(lineString.replace(/\//g,' '));
 	            console.log(lineString);
-	            drawLineString();
+	            drawLineString(false);
+	        }
+	        else{
+	        	lineStringInfo=data;
+	        	drawLineString(true);
+	        }
+	            
 	            },
 	            error: function(error_data){
 	                console.log("error");
@@ -346,7 +333,6 @@ h1{
 			for(var i=0;i<fileSummary.length;i++){
 	    fileNames[i]= fileSummary[i].fileName;
 	    }
-
 		
 		$.each(fileNames, function(i, el){
 		    if($.inArray(el, uniqueFileNames) === -1) uniqueFileNames.push(el);
@@ -354,21 +340,25 @@ h1{
 
 		var select = document.createElement('select');
 		select.setAttribute("id","select_id");
-		//select.setAttribute("onchange",apiCall(this));
+		select.setAttribute("onchange", "fileSelectionChanged()")		
 
-		for(var i=0;i<uniqueFileNames.length;i++){
-		// Use the Option constructor: args text, value, defaultSelected, selected
-		var option = new Option(uniqueFileNames[i], uniqueFileNames[i], false, false);
-		// option.setAttribute("onchange",val(option.value));
-		// option.setAttribute("id","select_id");
-		select.appendChild(option);	
+		for(var i=0;i<uniqueFileNames.length;i++){		
+			var option = new Option(uniqueFileNames[i], uniqueFileNames[i], false, false);
+			select.appendChild(option);	
 		}
 		document.getElementById("summaryGrid").appendChild(select);
 	};
 
+	function Showsimilarplots(){
+		apiCallLineString();
+	};
 
+	function fileSelectionChanged(){
+		 		apiCallLineString($( "#select_id" ).val());
+			    apiCall($( "#select_id" ).val());
+	}
 
-	function drawLineString(){
+	function drawLineString(pathGroupstoDraw){
 						 	var startIcon = L.icon({
 	                        iconUrl: 'https://unpkg.com/leaflet@1.0.3/dist/images/marker-icon-2x.png',
 	                        iconSize:     [28, 45], 
@@ -381,6 +371,18 @@ h1{
 	                        iconAnchor:   [15, 44], 
 	                        popupAnchor:  [-3, -76] 
 	                    });
+
+						 	var OpenStreetMap_Mapnik = new L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+									maxZoom: 16,
+									attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+								});
+						 	var Esri_WorldImagery = new L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
+
+						 	var backgroundLayerNames = {"ESRI Aerial": Esri_WorldImagery, "OpenStreetMap Streets": OpenStreetMap_Mapnik};
+						 	var map;
+
+
+						 	if(pathGroupstoDraw == false){						 	
 	                   
 	                    	if(document.getElementById('lineMapInBuilt')!=null){
 	                    	document.getElementById('lineMapInBuilt').remove();
@@ -388,18 +390,13 @@ h1{
 						 	document.getElementById('lineMap').innerHTML = '<div id="lineMapInBuilt" style="width: 100%; height: 300px;"></div>';
 
 
-								  var map = new L.map('lineMapInBuilt').setView([lineString.coordinates[0][1], lineString.coordinates[0][0]], 8);
-								  var OpenStreetMap_Mapnik = new L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-									maxZoom: 16,
-									attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-								});
+								map = new L.map('lineMapInBuilt').setView([lineString.coordinates[0][1], lineString.coordinates[0][0]], 8);
+								  
 								map.addLayer(OpenStreetMap_Mapnik);
-
-								var Esri_WorldImagery = new L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
+								
 	                    		map.addLayer( Esri_WorldImagery);
 
-	                    		var backgroundLayerNames = {"ESRI Aerial": Esri_WorldImagery, "OpenStreetMap Streets": OpenStreetMap_Mapnik};
-
+	                    		
 								L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
 								  id: 'mapbox.streets'
 								}).addTo(map);
@@ -435,26 +432,101 @@ h1{
 								      "Contract_N: " + feature.properties.Contract_N);
 								  }
 								}).addTo(map);
+							}
+							
+						 	else{
+						 		alert("You chose : " + $("#select_id").val() + " track");
+						 		var GroupNumber;
+						 		for(var n=0; n < lineStringInfo.length; n++){
+						 			if(lineStringInfo[n].fileName == $("#select_id").val()){
+						 				GroupNumber = lineStringInfo[n].GroupNumber;
+						 			}
+						 		}						 		
 
-								L.control.layers(backgroundLayerNames,overlayPointLayerNames).addTo(map);
+						 		var filteredlineStringInfo=[];
+						 		for(var n=0; n < lineStringInfo.length; n++){
+						 			if(lineStringInfo[n].GroupNumber == GroupNumber){
+						 				filteredlineStringInfo.push(lineStringInfo[n]);
+						 			}
+						 		}
+
+						 		alert("The no of similar tracks available = "+ filteredlineStringInfo.length);
+
+						 		if(document.getElementById('ClusteredlineMapInBuilt')!=null){
+	                    	document.getElementById('ClusteredlineMapInBuilt').remove();
+	                    }
+						 	document.getElementById('ClusteredlineMap').innerHTML = '<div id="ClusteredlineMapInBuilt" style="width: 100%; height: 300px;"></div>';
+
+						 		map = new L.map('ClusteredlineMapInBuilt').setView([JSON.parse(filteredlineStringInfo[0].lineString.replace(/\//g,' ')).coordinates[0][1], JSON.parse(filteredlineStringInfo[0].lineString.replace(/\//g,' ')).coordinates[0][0]], 8);
+								  
+								map.addLayer(OpenStreetMap_Mapnik);
+								
+	                    		map.addLayer( Esri_WorldImagery);
+
+	                    		
+								L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
+								  id: 'mapbox.streets'
+								}).addTo(map);
+
+								var jsObj;
+								for(var i=0; i < filteredlineStringInfo.length; i++){
+
+								jsObj = JSON.parse(filteredlineStringInfo[i].lineString.replace(/\//g,' '));
+
+								startingPoint = L.marker([jsObj.coordinates[0][1], jsObj.coordinates[0][0]],{icon: startIcon}).bindPopup('Start point');
+	                            overlay = L.layerGroup([startingPoint]);
+	                            map.addLayer(overlay);
+
+								var aT0625124projectlimits0 = {
+								  "type": "FeatureCollection",
+								  "features": [{
+								    "type": "Feature",
+								    "geometry": jsObj,
+								    "properties": {
+								      "OBJECTID": 16,
+								      "Contract_N": "AT0625124",
+								      "SHAPE_Leng": "53224.7785428",
+								      "Completion": "100"
+								    }
+								  }]
+								}
+
+								L.geoJson(aT0625124projectlimits0, {
+								  style: function(feature) {
+								    return {
+								      stroke: true,
+								      color: "red",
+								      weight: 5
+								    };
+								  },
+								  onEachFeature: function(feature, layer) {
+								    layer.bindPopup("id: " + feature.properties.OBJECTID + "<br>" +
+								      "Contract_N: " + feature.properties.Contract_N);
+								  }
+								}).addTo(map);
+							 }
+						 }
+
+								L.control.layers(backgroundLayerNames).addTo(map);
 							};	
 						 
 
-	// $('#select_id').change(function(){
-	// 		    // alert($(this).val());
-	// 		    //apiCall($( "#select_id" ).val());
-	// 		    apiCallLineString($( "#select_id" ).val());
-	// 		    //drawLineString();
-	// 		});
+function openCity(evt, cityName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+};
 
 	$(document).ready(function(){
-		    $('#select_id').change(function(){
-			    // alert($(this).val());
-			    //($( "#select_id" ).val());
-			    apiCallLineString($( "#select_id" ).val());
-			    apiCall($( "#select_id" ).val());
-			    //drawLineString();
-			});
+			$("#btnClusterStar").trigger('click');
 		});	
 				
 </script>

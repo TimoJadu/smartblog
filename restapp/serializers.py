@@ -21,8 +21,14 @@ class summaryTableSerializer(serializers.ModelSerializer):
         fields=('id_gist','longitude','latitude','altitude','time','Speed','DateTime',
         	'TimeDiff','DistanceCovered','DeltaElev','GeoPointsDist','Angle','fileName')
 
+class dataSet2AnalysisSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=dataSet2Analysis
+        # fields='__all__'
+        fields='__all__'
+
 class gpxJsonSerializer(serializers.ModelSerializer):
     class Meta:
         model=gpxJson
         # fields='__all__'
-        fields=('fileName','lineString')
+        fields=('__all__')
