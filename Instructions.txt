@@ -15,9 +15,11 @@ python manage.py migrate
 
 python manage.py createsuperuser (provide credentials as per your preference)
 
+Create a folder under: C:\gpxFiles and place all the GPX files that are to be analysed.
 
 at last, execute command(under folder containing manage.py file) in cmd:
 	python manage.py runserver
 		-- to run the application locally
 
-
+(after uploading gpx files in the application domain for analysis, please execute the 
+R-Code.R file in Rstudio manually)
