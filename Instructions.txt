@@ -1,0 +1,23 @@
+Please clone the codebase from https://github.com/TimoJadu/smartblog/tree/master in your 
+local machine.
+
+Make sure you have installed Python, Django framework, Djangorestframewor, Rstudio and PostgreSQL in your system.
+
+Please specify database details in the settings.py file under 'DATABASES' section.
+
+Open the R-code.R file in Rstudio and change the folder path from 'C:\\subhajit\\projectX\\smartblog\\smartblogproject\\Plots'
+to ~\\smartblog\\smartblogproject\\Plots folder possision where you have cloned the project.
+
+execute the below-mentioned commands to create the schema in the database:
+
+python manage.py makemigrations
+python manage.py migrate
+
+python manage.py createsuperuser (provide credentials as per your preference)
+
+
+at last, execute command(under folder containing manage.py file) in cmd:
+	python manage.py runserver
+		-- to run the application locally
+
+
